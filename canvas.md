@@ -1,9 +1,11 @@
 
 
 
-1. **Track + đề:** A2 · VLearn — tính năng mới: *Glossary*, bản đồ review glossary định nghĩa của chương/topic/video 
+1. **Track + đề:** A2 · VLearn — tính năng mới: *Glossary theo bài học, có liên kết khái niệm*, bản đồ review glossary định nghĩa của chương/topic/video 
 2. **Job executor:** Hoc vien đang xem slide lecture
-3. **Pain:** Các học viên đang coi slide, vừa hỏi AI giải thích 1 thuật ngữ trong topic/video đấy. Sau đấy lại phải hỏi tiếp 1 thuật ngữ khác cùng video/topic. Hậu quả: tốn thời gian prompt/quên cái trước/học bị ngắt đoạn. 
+3. **Pain:** 
+Khi học một bài có nhiều thuật ngữ mới, học viên phải dừng đọc nhiều lần để hỏi nghĩa từng thuật ngữ. Các câu trả lời nằm rải rác trong cuộc hội thoại, khiến họ khó hình dung quan hệ guyawx các khái niệm và tiếp tục theo dõi bài học.
+
 4. **Bằng chứng đầu:**
    - Data pack có `13.494` lượt hỏi–đáp của `1617` học viên — đủ signal để khảo sát. Trường `misconceptions` rỗng `28%`; chỉ `22.7%` lượt tutor trả lời. *Nguồn:* `data/vlearn-pack/chatlog/DATA_DICTIONARY.md`, ghép theo `turn_id`.
    - Phỏng vấn `09` học viên: `09/09` cần tốn thười gian hỏi đi hỏi lại các định nghĩa

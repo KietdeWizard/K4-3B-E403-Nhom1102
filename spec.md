@@ -48,19 +48,56 @@ Loại: [ ] Tối ưu tính năng có sẵn  [ ] Tính năng mới
 - [Sản phẩm 2]: ...
 
 ## §4. Thiết kế
-- Lát cắt MỘT CÂU (1 user · 1 việc · 1 quyết định AI · 1 kết quả):
-- Non-goals (≥3 thứ KHÔNG build):
-- Mức prototype nhắm tới: [ ] Sketch [ ] Mock [ ] Working — phần nào mock, phần nào thật:
-- Automation: [ ] augment [ ] conditional [ ] automate — lý do theo cost-of-error:
-- §4b. Nguyên tắc đã áp dụng (≥4 — HAX/PAIR, xem guide):
-  | Nguyên tắc | Áp cụ thể vào đâu trong prototype |
-  |---|---|
+
+- Lát cắt MỘT CÂU:
+  Học viên đang xem một slide/video trên VLearn · gặp nhiều thuật ngữ mới trong cùng topic · AI quyết định thuật ngữ nào cần đưa vào glossary dựa trên nội dung bài học và lịch sử câu hỏi cùng topic · tạo glossary ngắn có định nghĩa, ví dụ, nguồn, mối liên hệ giữa các khái niệm và thứ tự nên tìm hiểu để học viên tra nhanh mà không phải hỏi lặp lại.
+
+- Non-goals:
+  - Không đánh giá học viên yếu/mạnh ở khái niệm nào.
+  - Không sinh định nghĩa nếu không có căn cứ từ slide/video/topic.
+  - Không thay thế tutor/giảng viên trong các câu hỏi chuyên sâu hoặc tranh luận học thuật.
+  - Không tạo summary toàn bộ bài học; chỉ tập trung vào thuật ngữ và mối liên hệ giữa thuật ngữ.
+
+- Mức prototype nhắm tới:
+  [x] Mock
+  Prototype là giao diện HTML/CSS/JS tĩnh. Phần chạy giả lập gồm danh sách thuật ngữ, độ tự tin, nguồn trích dẫn, liên kết khái niệm, thứ tự học đề xuất và trạng thái low-confidence/no-grounding. Phần chưa chạy thật là mô hình AI trích xuất thuật ngữ từ slide và lịch sử chat.
+
+- Automation:
+  [x] Conditional
+
+  Lý do theo cost-of-error:
+  Nếu định nghĩa sai hoặc sai ngữ cảnh, học viên có thể hiểu lệch kiến thức nền và kéo theo lỗi ở các phần sau. Vì vậy hệ thống chỉ tự hiển thị glossary khi có căn cứ từ nội dung bài học. Khi thuật ngữ mơ hồ hoặc thiếu nguồn, hệ thống thu hẹp phạm vi, báo chưa đủ căn cứ và gợi ý hỏi tutor/giảng viên.
+
+  ## §4b. Nguyên tắc đã áp dụng
+
+| Nguyên tắc | Áp cụ thể vào đâu trong prototype |
+|---|---|
+| G10 — Thu hẹp phạm vi khi nghi ngờ | Khi thuật ngữ không đủ nguồn, card glossary hiển thị trạng thái “Chưa đủ căn cứ” thay vì tự định nghĩa chắc chắn. |
+| G11 — Giải thích vì sao | Mỗi định nghĩa và liên kết khái niệm có dòng “Dựa trên slide/trang...” để học viên biết hệ thống lấy căn cứ từ đâu và vì sao nên học theo thứ tự đó. |
+| G9 — Sửa dễ dàng | Học viên có nút “Đề xuất sửa” trên từng thuật ngữ nếu định nghĩa chưa đúng hoặc thiếu ngữ cảnh. |
+| G8 — Gạt bỏ dễ dàng | Học viên có thể ẩn/gạt bỏ thuật ngữ không cần thiết khỏi glossary của bài học. |
 
 ## §5. Kiểu lỗi — 4 lớp chỗ khó + kịch bản (≥8) [bảng theo guide §2.5]
 
 ## §6. Bốn đường đi của trải nghiệm
-- Happy path: · Low-confidence (②): · Failure/không căn cứ (①): · Correction (user sửa):
-- Khi bị đòi ngoài phạm vi (③): · Case đặc thù domain (④):
+
+- Happy path:
+  Học viên mở slide/video lecture → bấm “Glossary” → hệ thống hiển thị các thuật ngữ quan trọng trong topic → học viên xem thứ tự đề xuất như “khái niệm nền → khái niệm trung gian → khái niệm ứng dụng” → chọn một thuật ngữ → xem định nghĩa ngắn, ví dụ theo bài học, nguồn slide/trang và các khái niệm liên quan → tiếp tục học mà không cần hỏi lại từng thuật ngữ.
+
+- Low-confidence (②):
+  Học viên chọn một thuật ngữ có nhiều nghĩa hoặc ít signal → hệ thống hiển thị nhãn “Độ tin cậy thấp” → chỉ đưa ra mô tả giới hạn theo ngữ cảnh đang có → gợi ý học viên kiểm tra lại với tutor/giảng viên.
+
+- Failure/không căn cứ (①):
+  Học viên hỏi một thuật ngữ không xuất hiện trong slide/video/topic → hệ thống không tự bịa định nghĩa → hiển thị “Chưa tìm thấy căn cứ trong bài học này” → đề xuất hỏi tutor hoặc mở rộng tìm kiếm ngoài bài nếu được phép.
+
+- Correction:
+  Học viên thấy định nghĩa chưa đúng hoặc thiếu ví dụ → bấm “Đề xuất sửa” → nhập góp ý ngắn → hệ thống ghi nhận bản sửa ở trạng thái chờ duyệt/kiểm tra → glossary cập nhật nhãn “Đã có góp ý từ học viên”.
+
+- Khi bị đòi ngoài phạm vi (③):
+  Nếu học viên yêu cầu giải bài tập, dự đoán đề thi, hoặc hỏi kiến thức ngoài topic hiện tại, hệ thống báo rằng glossary chỉ hỗ trợ thuật ngữ trong bài học đang xem và chuyển hướng sang tutor/chat.
+
+- Case đặc thù domain (④):
+  Với thuật ngữ kỹ thuật có nhiều nghĩa như “attention”, “embedding”, “loss”, hệ thống phải gắn định nghĩa với đúng ngữ cảnh bài học, ví dụ “attention trong Transformer”, không đưa định nghĩa chung chung ngoài môn học. Khi đề xuất thứ tự học, hệ thống phải dựa trên quan hệ trong bài, ví dụ hiểu “token” trước “embedding”, rồi mới đến “attention”.
 
 ## §7. Kiểm thử
 - Chiều chất lượng + định nghĩa kiểm chứng được:

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VLearn Glossary Prototype</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="lecture-pane" aria-labelledby="lecture-title">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">VLearn · Lecture 05</p>
+            <h1 id="lecture-title">Transformer Basics</h1>
+          </div>
+          <button class="primary-action" id="openGlossary" type="button">Glossary</button>
+        </header>
+
+        <article class="slide">
+          <p class="slide-kicker">Slide 12 / 32</p>
+          <h2>From tokens to attention</h2>
+          <p>
+            A sentence is split into <mark data-term="token">tokens</mark>. Each token is mapped to an
+            <mark data-term="embedding">embedding</mark>, then the model uses
+            <mark data-term="attention">attention</mark> to compare context across the sequence.
+          </p>
+          <div class="formula">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d) V</div>
+          <p class="note">
+            Students often ask about the difference between token, embedding, attention, and loss in the
+            same topic. This prototype turns those repeated questions into a guided glossary.
+          </p>
+        </article>
+
+        <section class="path-panel" aria-labelledby="path-title">
+          <div>
+            <p class="eyebrow">Suggested learning order</p>
+            <h2 id="path-title">Understand in this sequence</h2>
+          </div>
+          <ol class="learning-order" id="learningOrder"></ol>
+        </section>
+      </section>
+
+      <aside class="glossary-pane" aria-label="Glossary panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">AI Glossary</p>
+            <h2>Key terms in this topic</h2>
+          </div>
+          <span class="status-pill">Mock CP2</span>
+        </header>
+
+        <div class="term-list" id="termList" aria-label="Glossary terms"></div>
+
+        <section class="term-detail" id="termDetail" aria-live="polite"></section>
+
+        <section class="ask-box" aria-labelledby="ask-title">
+          <h3 id="ask-title">Try an edge case</h3>
+          <div class="ask-row">
+            <input id="customTerm" type="text" placeholder="Nhập thuật ngữ ngoài bài, ví dụ: backpropagation" />
+            <button id="askTerm" type="button">Ask</button>
+          </div>
+          <p class="helper-text">Nếu không có căn cứ trong bài, prototype sẽ không tự bịa định nghĩa.</p>
+        </section>
+      </aside>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

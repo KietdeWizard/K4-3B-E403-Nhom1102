@@ -8,17 +8,40 @@ Hướng: [ ] A — VLearn  [ ] B — Trợ lý Học viên  [ ] C — Làn mở
 Loại: [ ] Tối ưu tính năng có sẵn  [ ] Tính năng mới
 
 ## §1. User & Job
-- Job executor + workflow (đính kèm worksheet JTBD / ảnh sơ đồ):
-- Core JTBD (không tên sản phẩm/AI trong câu):
-- Problem statement (KHÔNG chữ AI):
-- Evidence (chuẩn A và/hoặc B — log đầy đủ trong repo):
-  - Số liệu mining / kết quả khảo sát (n = ?, % xác nhận):
-  - ≥5 quote/ví dụ nguyên văn + nguồn:
+
+- Job executor + workflow:
+  Học viên đang xem slide/video lecture trên VLearn, gặp nhiều thuật ngữ mới trong cùng một chương/topic. Khi không hiểu một thuật ngữ, học viên phải dừng lại để hỏi tutor/chatbot, sau đó quay lại bài học rồi tiếp tục hỏi thêm các thuật ngữ khác nếu gặp tiếp.
+
+- Core JTBD:
+  Khi đang học một bài có nhiều thuật ngữ mới, học viên muốn tra nhanh định nghĩa và mối liên hệ giữa các khái niệm trong đúng ngữ cảnh bài học, để tiếp tục theo dõi nội dung mà không bị ngắt mạch học liên tục.
+
+- Problem statement:
+  Các định nghĩa thuật ngữ hiện đang nằm rải rác trong từng lượt hỏi–đáp, khiến học viên mất thời gian hỏi lặp lại, khó nhớ thuật ngữ đã hỏi trước đó, và khó nhìn thấy quan hệ giữa các khái niệm trong cùng một topic/video.
+
+- Evidence:
+  - Data pack có `13.494` lượt hỏi–đáp của `1617` học viên, đủ signal để khảo sát hành vi hỏi bài.
+  - Trường `misconceptions` rỗng `28%`, cho thấy dữ liệu hiểu sai/khó hiểu chưa luôn được cấu trúc sẵn.
+  - Chỉ `22.7%` lượt tutor trả lời, làm tăng nhu cầu có lớp hỗ trợ tra cứu/tổng hợp nhanh từ nguồn bài học.
+  - Phỏng vấn `09` học viên: `09/09` nói rằng việc hỏi đi hỏi lại các định nghĩa làm tốn thời gian và ngắt mạch học
 
 ## §2. Impact & quyết định chọn
-- Bảng impact ≥3 ứng viên (bao nhiêu người · tần suất · tốn gì mỗi lần · khả thi):
+
+- Bảng impact ≥3 ứng viên:
+
+| Ứng viên | Ai bị ảnh hưởng | Tần suất | Tốn gì mỗi lần | Khả thi trong hackathon |
+|---|---:|---:|---|---|
+| Glossary theo bài học, có liên kết khái niệm | `09/09` học viên phỏng vấn xác nhận pain; data pack có `13.494` lượt hỏi–đáp | Xảy ra nhiều lần trong một bài có nhiều thuật ngữ mới | Mất thời gian hỏi lại, ngắt mạch học, khó nhớ thuật ngữ trước đó | Cao: có thể prototype bằng slide/topic mẫu + glossary card + concept map nhỏ |
+| Tóm tắt toàn bộ bài học sau buổi | Nhiều học viên cần ôn lại sau lớp | Sau mỗi buổi học | Dễ quá rộng, khó chứng minh cá nhân hóa từ data hiện có | Trung bình: dễ làm demo nhưng dễ giống summary tool chung |
+| Bản đồ lỗ hổng kiến thức cá nhân | Học viên có nhiều log hỏi bài | Sau nhiều lượt học/tutor | Rủi ro suy luận sai rằng học viên “hổng kiến thức” khi signal yếu | Thấp-Trung bình: cần nhiều dữ liệu cá nhân và kiểm chứng chất lượng |
+| Dashboard chỗ khó của cả lớp cho giảng viên | Giảng viên/TA | Sau mỗi buổi học | Cần gom dữ liệu lớp, xử lý noise/preset questions, bảo vệ danh tính | Trung bình: hay nhưng lệch khỏi pain đang chọn của học viên xem slide |
+
 - Ứng viên ĐÃ LOẠI + vì sao:
-- Ứng viên CHỌN + vì sao (bằng số):
+  - Tóm tắt toàn bộ bài học sau buổi: loại vì quá rộng, không đánh trực tiếp vào pain “đang học bị ngắt vì phải hỏi định nghĩa”.
+  - Bản đồ lỗ hổng kiến thức cá nhân: loại vì cost-of-error cao; nếu hệ thống kết luận sai học viên yếu phần nào thì dễ gây mất niềm tin.
+  - Dashboard chỗ khó của cả lớp cho giảng viên: loại vì user chính chuyển sang giảng viên, trong khi bằng chứng phỏng vấn hiện tại đang mạnh hơn ở phía học viên.
+
+- Ứng viên CHỌN + vì sao:
+  Chọn **Glossary theo bài học, có liên kết khái niệm** vì pain được xác nhận bởi `09/09` học viên phỏng vấn và phù hợp với data pack có `13.494` lượt hỏi–đáp. Tính năng này có lát cắt hẹp, dễ demo trong checkpoint 2: từ một slide/topic, hệ thống tạo danh sách thuật ngữ quan trọng, định nghĩa ngắn theo ngữ cảnh bài học, ví dụ, nguồn/trang liên quan, và mối liên hệ giữa các thuật ngữ. Rủi ro thấp hơn các phương án “đánh giá năng lực” vì AI chỉ hỗ trợ tra cứu/tổng hợp, không kết luận học viên yếu hay giỏi.
 
 ## §3. Giải pháp tương tự đã nghiên cứu
 - [Sản phẩm 1]: flow / đáng học / đáng né / mình khác gì

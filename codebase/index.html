@@ -3,70 +3,331 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VLearn Glossary Prototype</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>CP2 Workflow - VLearn AI Glossary Agent</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --card: #ffffff;
+        --ink: #17202a;
+        --muted: #617083;
+        --line: #dce3ec;
+        --blue: #2563eb;
+        --green: #0f766e;
+        --amber: #a15c07;
+        --red: #a43c3c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(1120px, calc(100vw - 32px));
+        margin: 24px auto;
+      }
+
+      header,
+      section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--card);
+        padding: 20px;
+      }
+
+      section {
+        margin-top: 16px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+        font-size: 2rem;
+      }
+
+      h2 {
+        margin-bottom: 14px;
+        font-size: 1.25rem;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .flow {
+        display: grid;
+        gap: 12px;
+      }
+
+      .node {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        background: #fbfcff;
+      }
+
+      .node strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .decision {
+        border-color: #b9d0f5;
+        background: #eef5ff;
+      }
+
+      .output {
+        border-color: #b9ded8;
+        background: #effaf7;
+      }
+
+      .warning {
+        border-color: #edd19f;
+        background: #fff7e8;
+      }
+
+      .failure {
+        border-color: #e7b9b9;
+        background: #fff0f0;
+      }
+
+      .correction {
+        border-color: #c9c8f1;
+        background: #f5f4ff;
+      }
+
+      .arrow {
+        color: var(--muted);
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .branches {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .tag {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 4px 10px;
+        color: #fff;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .blue {
+        background: var(--blue);
+      }
+
+      .green {
+        background: var(--green);
+      }
+
+      .amber {
+        background: var(--amber);
+      }
+
+      .red {
+        background: var(--red);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--line);
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f0f3f7;
+      }
+
+      code {
+        border-radius: 4px;
+        background: #eef2f7;
+        padding: 2px 5px;
+      }
+
+      @media (max-width: 900px) {
+        .branches {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
   </head>
   <body>
-    <main class="app-shell">
-      <section class="lecture-pane" aria-labelledby="lecture-title">
-        <header class="topbar">
-          <div>
-            <p class="eyebrow">VLearn · Lecture 05</p>
-            <h1 id="lecture-title">Transformer Basics</h1>
-          </div>
-          <button class="primary-action" id="openGlossary" type="button">Glossary</button>
-        </header>
+    <main>
+      <header>
+        <p class="muted">CP2 artifact · Workflow only · No product UI</p>
+        <h1>VLearn AI Glossary Agent Workflow</h1>
+        <p>
+          File này chỉ mô tả cách agent hoạt động khi học viên prompt VLearn AI về glossary trong lúc học
+          một slide/video. Đây không phải UI cuối cùng và không phải chatbox prototype.
+        </p>
+      </header>
 
-        <article class="slide">
-          <p class="slide-kicker">Slide 12 / 32</p>
-          <h2>From tokens to attention</h2>
-          <p>
-            A sentence is split into <mark data-term="token">tokens</mark>. Each token is mapped to an
-            <mark data-term="embedding">embedding</mark>, then the model uses
-            <mark data-term="attention">attention</mark> to compare context across the sequence.
-          </p>
-          <div class="formula">Attention(Q, K, V) = softmax(QK<sup>T</sup> / √d) V</div>
-          <p class="note">
-            Students often ask about the difference between token, embedding, attention, and loss in the
-            same topic. This prototype turns those repeated questions into a guided glossary.
-          </p>
-        </article>
-
-        <section class="path-panel" aria-labelledby="path-title">
-          <div>
-            <p class="eyebrow">Suggested learning order</p>
-            <h2 id="path-title">Understand in this sequence</h2>
+      <section>
+        <h2>End-to-end workflow</h2>
+        <div class="flow">
+          <div class="node">
+            <span class="tag blue">Input</span>
+            <strong>1. Student prompts VLearn AI</strong>
+            Ví dụ: <code>Tạo glossary cho slide này</code>, <code>Giải thích attention</code>,
+            <code>Backpropagation là gì trong bài này?</code>
           </div>
-          <ol class="learning-order" id="learningOrder"></ol>
-        </section>
+
+          <div class="arrow">↓</div>
+
+          <div class="node">
+            <span class="tag blue">Context retrieval</span>
+            <strong>2. Agent lấy context bài học hiện tại</strong>
+            Agent đọc slide/video/topic hiện tại, transcript nếu có, và lịch sử hỏi đáp liên quan đến cùng topic.
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="node decision">
+            <span class="tag blue">AI decision point</span>
+            <strong>3. Agent kiểm tra grounding và confidence</strong>
+            Agent quyết định thuật ngữ có căn cứ trong bài không, có đủ nguồn để định nghĩa không, và có bị mơ hồ
+            nhiều nghĩa không.
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="branches">
+            <div class="node output">
+              <span class="tag green">Happy path</span>
+              <strong>Đủ căn cứ</strong>
+              Trả glossary gồm định nghĩa ngắn, ví dụ theo bài, nguồn slide/trang, keyword liên quan, và thứ tự học
+              đề xuất.
+            </div>
+
+            <div class="node warning">
+              <span class="tag amber">Low confidence</span>
+              <strong>Có căn cứ yếu hoặc thuật ngữ mơ hồ</strong>
+              Trả câu trả lời giới hạn, gắn nhãn độ tin cậy thấp, và đề nghị học viên kiểm tra với tutor/giảng viên.
+            </div>
+
+            <div class="node failure">
+              <span class="tag red">No grounding</span>
+              <strong>Không tìm thấy trong bài</strong>
+              Không tự bịa định nghĩa. Agent nói chưa đủ căn cứ trong bài học hiện tại và gợi ý hỏi tutor.
+            </div>
+
+            <div class="node correction">
+              <span class="tag blue">Correction</span>
+              <strong>User sửa/góp ý</strong>
+              Nếu học viên nói định nghĩa chưa rõ/sai ngữ cảnh, agent ghi nhận góp ý và đề xuất bản sửa có kiểm chứng.
+            </div>
+          </div>
+
+          <div class="arrow">↓</div>
+
+          <div class="node">
+            <span class="tag green">Final output</span>
+            <strong>4. Agent trả kết quả trong VLearn AI</strong>
+            Output không đánh giá học viên yếu hay giỏi. Output chỉ hỗ trợ tra cứu thuật ngữ trong bài và giải thích
+            mối liên hệ giữa keyword.
+          </div>
+        </div>
       </section>
 
-      <aside class="glossary-pane" aria-label="Glossary panel">
-        <header class="panel-header">
-          <div>
-            <p class="eyebrow">AI Glossary</p>
-            <h2>Key terms in this topic</h2>
-          </div>
-          <span class="status-pill">Mock CP2</span>
-        </header>
+      <section>
+        <h2>Example output contract</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Ví dụ</th>
+              <th>Mục đích</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>term</code></td>
+              <td>Embedding</td>
+              <td>Keyword quan trọng trong bài.</td>
+            </tr>
+            <tr>
+              <td><code>definition</code></td>
+              <td>Vector số biểu diễn token để model xử lý.</td>
+              <td>Giải thích ngắn, đúng ngữ cảnh bài.</td>
+            </tr>
+            <tr>
+              <td><code>source</code></td>
+              <td>Slide 12: "Each token is mapped into an embedding."</td>
+              <td>Cho học viên biết căn cứ.</td>
+            </tr>
+            <tr>
+              <td><code>related_terms</code></td>
+              <td>token, attention</td>
+              <td>Thể hiện mối liên hệ giữa glossary/keyword.</td>
+            </tr>
+            <tr>
+              <td><code>learning_order</code></td>
+              <td>token → embedding → attention</td>
+              <td>Đề xuất thứ tự tìm hiểu.</td>
+            </tr>
+            <tr>
+              <td><code>confidence</code></td>
+              <td>high / low / no-grounding</td>
+              <td>Quyết định agent tự trả lời hay thu hẹp phạm vi.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-        <div class="term-list" id="termList" aria-label="Glossary terms"></div>
-
-        <section class="term-detail" id="termDetail" aria-live="polite"></section>
-
-        <section class="ask-box" aria-labelledby="ask-title">
-          <h3 id="ask-title">Try an edge case</h3>
-          <div class="ask-row">
-            <input id="customTerm" type="text" placeholder="Nhập thuật ngữ ngoài bài, ví dụ: backpropagation" />
-            <button id="askTerm" type="button">Ask</button>
-          </div>
-          <p class="helper-text">Nếu không có căn cứ trong bài, prototype sẽ không tự bịa định nghĩa.</p>
-        </section>
-      </aside>
+      <section>
+        <h2>Safety logic</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Agent behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Keyword có trong bài và nguồn rõ</td>
+              <td>Trả lời trực tiếp, kèm nguồn và mối liên hệ.</td>
+            </tr>
+            <tr>
+              <td>Keyword có nhiều nghĩa</td>
+              <td>Chỉ giải thích theo ngữ cảnh bài học, không định nghĩa chung chung.</td>
+            </tr>
+            <tr>
+              <td>Keyword không có trong bài</td>
+              <td>Không bịa. Báo chưa đủ căn cứ và đề nghị hỏi tutor/giảng viên.</td>
+            </tr>
+            <tr>
+              <td>User muốn sửa kết quả</td>
+              <td>Ghi nhận correction, không âm thầm thay đổi nếu chưa kiểm chứng.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-    <script src="app.js"></script>
   </body>
 </html>

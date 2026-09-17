@@ -1,18 +1,17 @@
-# CP2 Interactive Prototype
+# CP2 VLearn AI Glossary Agent Workflow
 
-This folder contains a static HTML/CSS/JS prototype for the VLearn Glossary feature.
+This folder contains a single static HTML workflow showing how the VLearn AI glossary agent works.
 
 ## How to open
 
 Open `index.html` directly in a browser.
 
-## What the prototype demonstrates
+## What the workflow demonstrates
 
-- Happy path: learner opens glossary while viewing a lecture slide.
-- Concept relationship: terms show related concepts and a suggested learning order.
-- Low-confidence path: `Loss` shows a limited answer with weak grounding.
-- No-grounding path: enter a term outside the lesson, such as `backpropagation`.
-- Correction path: use `Đề xuất sửa`.
-- Dismiss path: use `Ẩn thuật ngữ`.
+- User prompt to VLearn AI.
+- Context retrieval from current lesson.
+- AI decision point for grounding and confidence.
+- Happy path, low-confidence, no-grounding, and correction branches.
+- Output contract for glossary terms, related keywords, and learning order.
 
-This is a CP2 mock prototype. It does not run a real AI model yet.
+This is only a workflow artifact, not the final product UI.

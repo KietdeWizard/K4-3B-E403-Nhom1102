@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VLearn Glossary Lab</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+      :root {
+        --ink: #17252a;
+        --muted: #718187;
+        --paper: #f5f1e8;
+        --panel: #fffdf8;
+        --line: #ded8ca;
+        --teal: #0e716c;
+        --teal-dark: #07524f;
+        --lime: #c8e36d;
+        --coral: #ef765f;
+        --gold: #e7b65b;
+        --shadow: 0 18px 50px rgba(45, 51, 43, .09);
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      #empty-state[hidden] { display: none !important; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: "DM Sans", "Segoe UI", sans-serif;
+      }
+      button, textarea, input { font: inherit; }
+      button { cursor: pointer; }
+      .app { min-height: 100vh; }
+      .topbar {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 34px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 253, 248, .82);
+      }
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .brand-mark {
+        width: 34px; height: 34px; display: grid; place-items: center;
+        color: var(--teal-dark); background: var(--lime); border-radius: 10px;
+        font-family: "Space Grotesk", sans-serif; font-weight: 700;
+      }
+      .brand-name { font-family: "Space Grotesk", sans-serif; font-weight: 700; letter-spacing: .02em; }
+      .eyebrow { color: var(--muted); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+      .top-status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+      .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #52a45c; box-shadow: 0 0 0 4px rgba(82, 164, 92, .13); }
+
+      .workspace { display: grid; grid-template-columns: 350px minmax(0, 1fr); max-width: 1480px; min-height: calc(100vh - 72px); margin: 0 auto; }
+      .sidebar { padding: 34px 28px; border-right: 1px solid var(--line); }
+      .sidebar h1 { margin: 8px 0 12px; max-width: 260px; font: 700 36px/1.04 "Space Grotesk", sans-serif; letter-spacing: -.04em; }
+      .sidebar-intro { color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .lesson-panel { margin-top: 30px; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+      .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+      .panel-title { font-weight: 700; font-size: 14px; }
+      .panel-count { color: var(--muted); font-size: 12px; }
+      label { display: block; margin: 16px 0 7px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
+      textarea { width: 100%; min-height: 108px; resize: vertical; padding: 12px; color: var(--ink); background: #faf8f1; border: 1px solid var(--line); border-radius: 10px; outline: none; line-height: 1.5; }
+      textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(14, 113, 108, .12); }
+      .file-input { display: block; padding: 11px; color: var(--muted); background: #faf8f1; border: 1px dashed #bcb7aa; border-radius: 10px; font-size: 12px; }
+      .file-input input { width: 100%; margin-top: 8px; font-size: 12px; }
+      .demo-button { width: 100%; margin-top: 16px; padding: 11px 13px; color: var(--teal-dark); background: var(--lime); border: 0; border-radius: 9px; font-weight: 700; }
+      .demo-button:hover { background: #d4ed80; }
+      .sidebar-note { margin-top: 18px; padding: 13px 14px; color: #786b4f; background: #f9eaca; border-left: 3px solid var(--gold); border-radius: 8px; font-size: 12px; line-height: 1.5; }
+
+      .content { min-width: 0; padding: 34px clamp(24px, 5vw, 72px) 64px; }
+      .content-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; max-width: 900px; }
+      .content-head h2 { margin: 4px 0 0; font: 600 27px "Space Grotesk", sans-serif; letter-spacing: -.03em; }
+      .run-label { color: var(--muted); font-size: 12px; }
+      .query-box { display: flex; gap: 10px; max-width: 900px; margin-top: 24px; padding: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+      .query-box textarea { min-height: 52px; height: 52px; border: 0; background: transparent; box-shadow: none; resize: none; }
+      .query-box textarea:focus { box-shadow: none; }
+      .ask-button { align-self: stretch; min-width: 128px; padding: 0 18px; color: #fffdf8; background: var(--teal); border: 0; border-radius: 10px; font-weight: 700; }
+      .ask-button:hover { background: var(--teal-dark); }
+      .ask-button:disabled { opacity: .6; cursor: wait; }
+      .suggestions { display: flex; flex-wrap: wrap; gap: 8px; max-width: 900px; margin-top: 13px; }
+      .suggestion { padding: 7px 11px; color: var(--teal-dark); background: transparent; border: 1px solid #b9d0c9; border-radius: 99px; font-size: 12px; }
+      .suggestion:hover { background: #e3f0d8; }
+
+      .result-shell { max-width: 900px; margin-top: 34px; }
+      .empty-state { min-height: 350px; display: grid; place-items: center; padding: 36px; text-align: center; background: rgba(255, 253, 248, .55); border: 1px dashed #c9c1b2; border-radius: 18px; }
+      .empty-icon { width: 62px; height: 62px; display: grid; place-items: center; margin: 0 auto 17px; color: var(--teal-dark); background: var(--lime); border-radius: 18px; font: 700 25px "Space Grotesk", sans-serif; }
+      .empty-state h3 { margin: 0 0 8px; font: 600 22px "Space Grotesk", sans-serif; }
+      .empty-state p { max-width: 420px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+      .result-card { overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+      .result-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+      .behavior { display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; }
+      .behavior::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+      .behavior.resolve { color: #2d754a; background: #e1f2df; }
+      .behavior.clarify { color: #916718; background: #f9eaca; }
+      .behavior.unsupported { color: #a2473d; background: #f9dfd8; }
+      .behavior.manual_review { color: #5f579b; background: #e6e3f7; }
+      .confidence { color: var(--muted); font-size: 12px; }
+      .answer-block { padding: 25px 22px 22px; }
+      .answer-block h3 { margin: 0 0 10px; font: 600 25px/1.2 "Space Grotesk", sans-serif; }
+      .answer { max-width: 720px; margin: 0; font-size: 16px; line-height: 1.7; }
+      .human-check { display: inline-block; margin-top: 14px; padding: 6px 9px; color: #916718; background: #fff2ca; border-radius: 6px; font-size: 12px; font-weight: 700; }
+      .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+      .detail { min-height: 112px; padding: 18px 22px; background: var(--panel); }
+      .detail h4 { margin: 0 0 12px; color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+      .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+      .chip { padding: 6px 9px; color: var(--teal-dark); background: #e5f1df; border-radius: 6px; font-size: 12px; font-weight: 700; }
+      .source-list { display: flex; flex-wrap: wrap; gap: 7px; }
+      .source { padding: 6px 9px; color: #765e29; background: #f8e9c8; border-radius: 6px; font: 600 12px "Space Grotesk", sans-serif; }
+      .empty-detail { color: var(--muted); font-size: 13px; }
+      .error-card { padding: 18px 20px; color: #933e35; background: #f9dfd8; border: 1px solid #e8b8ad; border-radius: 14px; }
+      .loading-card { padding: 28px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 18px; }
+      .spinner { display: inline-block; width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; border: 2px solid #c6d0c7; border-top-color: var(--teal); border-radius: 50%; animation: spin .8s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+      @media (max-width: 850px) {
+        .topbar { padding: 0 18px; }
+        .top-status { display: none; }
+        .workspace { display: block; }
+        .sidebar { padding: 26px 18px; border-right: 0; border-bottom: 1px solid var(--line); }
+        .sidebar h1 { max-width: none; font-size: 32px; }
+        .content { padding: 26px 18px 48px; }
+        .content-head { align-items: start; flex-direction: column; gap: 5px; }
+      }
+      @media (max-width: 560px) {
+        .query-box { display: block; }
+        .ask-button { width: 100%; min-height: 45px; }
+        .detail-grid { grid-template-columns: 1fr; }
+        .result-top { align-items: start; flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">V</div>
+          <div>
+            <div class="brand-name">VLEARN</div>
+            <div class="eyebrow">Glossary lab</div>
+          </div>
+        </div>
+        <div class="top-status"><span class="status-dot"></span> Live grounding agent</div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <div class="eyebrow">Lesson workspace</div>
+          <h1>Hiểu bài mà không đứt mạch.</h1>
+          <p class="sidebar-intro">Đưa context của bài học vào đây. Agent sẽ chỉ giải thích những gì có căn cứ trong lesson.</p>
+
+          <form id="decision-form" class="lesson-panel">
+            <div class="panel-head">
+              <span class="panel-title">Nguồn bài học</span>
+              <span class="panel-count">01 context</span>
+            </div>
+            <label class="file-input" for="lesson_file">
+              Upload PDF, PPTX, TXT hoặc Markdown
+              <input id="lesson_file" name="lesson_file" type="file" accept=".pdf,.pptx,.txt,.md" />
+            </label>
+            <label for="lesson_context">Hoặc dán nội dung bài</label>
+            <textarea id="lesson_context" name="lesson_context" placeholder="Ví dụ: Slide [T04-040] giải thích Attention..."></textarea>
+            <label for="topic_history">Lịch sử cùng topic <span class="panel-count">(tuỳ chọn)</span></label>
+            <textarea id="topic_history" name="topic_history" placeholder="Các thuật ngữ học viên đã hỏi trước đó..."></textarea>
+            <button class="demo-button" id="demo-button" type="button">Nạp lesson mẫu</button>
+            <div class="sidebar-note">Source ID chỉ được giữ lại khi xuất hiện thật trong context. Không có căn cứ thì agent sẽ thu hẹp câu trả lời.</div>
+          </form>
+        </aside>
+
+        <main class="content">
+          <div class="content-head">
+            <div>
+              <div class="eyebrow">Ask your lesson</div>
+              <h2>Glossary theo ngữ cảnh</h2>
+            </div>
+            <span class="run-label" id="run-label">Chưa có lượt chạy</span>
+          </div>
+
+          <form id="query-form" class="query-box">
+            <label class="sr-only" for="user_query">Câu hỏi của học viên</label>
+            <textarea id="user_query" name="user_query" placeholder="Ví dụ: Attention là gì trong bài này?" required></textarea>
+            <button class="ask-button" id="submit-button" type="submit">Hỏi agent</button>
+          </form>
+          <div class="suggestions" aria-label="Câu hỏi gợi ý">
+            <button class="suggestion" type="button" data-query="Attention là gì trong bài này?">Attention là gì?</button>
+            <button class="suggestion" type="button" data-query="Token và embedding liên quan thế nào?">Token → embedding?</button>
+            <button class="suggestion" type="button" data-query="Mamba State Space Model là gì?">Ngoài phạm vi?</button>
+          </div>
+
+          <section class="result-shell" aria-live="polite">
+            <div class="empty-state" id="empty-state">
+              <div>
+                <div class="empty-icon">?</div>
+                <h3>Đặt một câu hỏi để bắt đầu</h3>
+                <p>Agent sẽ trả lời có căn cứ, gắn source ID và chỉ ra khi nào cần hỏi lại tutor.</p>
+              </div>
+            </div>
+            <div id="result-area" hidden></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const decisionForm = document.querySelector("#decision-form");
+      const queryForm = document.querySelector("#query-form");
+      const queryInput = document.querySelector("#user_query");
+      const submitButton = document.querySelector("#submit-button");
+      const emptyState = document.querySelector("#empty-state");
+      const resultArea = document.querySelector("#result-area");
+      const runLabel = document.querySelector("#run-label");
+      const demoButton = document.querySelector("#demo-button");
+      const demoContext = "Slide [T04-003] giới thiệu Large Language Model. Slide [T04-013] mô tả LLM là mô hình ngôn ngữ được huấn luyện trên lượng dữ liệu lớn. Slide [T04-038] và [T04-040] giải thích Transformer, Attention và cách mô hình tập trung vào token quan trọng.";
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>'"]/g, (character) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"}[character]));
+      }
+
+      function listMarkup(items, className, emptyText) {
+        if (!items || !items.length) return `<span class="empty-detail">${emptyText}</span>`;
+        return `<div class="${className}">${items.map((item) => `<span class="${className === "source-list" ? "source" : "chip"}">${escapeHtml(item)}</span>`).join("")}</div>`;
+      }
+
+      function renderResult(data) {
+        const behavior = data.behavior || "clarify";
+        const confidence = typeof data.confidence_score === "number" ? `${Math.round(data.confidence_score * 100)}% confidence` : "Chưa xác định confidence";
+        resultArea.innerHTML = `
+          <article class="result-card">
+            <div class="result-top">
+              <span class="behavior ${escapeHtml(behavior)}">${escapeHtml(behavior.replace("_", " "))}</span>
+              <span class="confidence">${confidence}</span>
+            </div>
+            <div class="answer-block">
+              <div class="eyebrow">Agent answer</div>
+              <h3>${escapeHtml(data.canonical_terms?.[0] || "Lesson response")}</h3>
+              <p class="answer">${escapeHtml(data.answer)}</p>
+              ${data.needs_human_check ? '<span class="human-check">Cần human check</span>' : ""}
+            </div>
+            <div class="detail-grid">
+              <div class="detail"><h4>Canonical terms</h4>${listMarkup(data.canonical_terms, "chips", "Không map được thuật ngữ")}</div>
+              <div class="detail"><h4>Source IDs</h4>${listMarkup(data.source_ids, "source-list", "Chưa có source hợp lệ")}</div>
+              <div class="detail"><h4>Relations</h4>${listMarkup(data.relations, "chips", "Không có quan hệ liên quan")}</div>
+              <div class="detail"><h4>Decision</h4><span class="empty-detail">${escapeHtml(behavior === "resolve" ? "Đủ căn cứ để giải thích." : behavior === "clarify" ? "Cần thêm ngữ cảnh trước khi kết luận." : behavior === "manual_review" ? "Nguồn cần được giảng viên kiểm tra." : "Ngoài phạm vi lesson hiện tại.")}</span></div>
+            </div>
+          </article>`;
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+      }
+
+      function renderError(message) {
+        resultArea.innerHTML = `<div class="error-card"><strong>Không thể chạy agent.</strong><br />${escapeHtml(message)}</div>`;
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+      }
+
+      demoButton.addEventListener("click", () => {
+        document.querySelector("#lesson_context").value = demoContext;
+        document.querySelector("#topic_history").value = "Học viên đã hỏi về token và embedding trong topic này.";
+        queryInput.value = "Attention là gì trong bài này?";
+        queryInput.focus();
+      });
+
+      document.querySelectorAll("[data-query]").forEach((button) => {
+        button.addEventListener("click", () => {
+          queryInput.value = button.dataset.query;
+          queryInput.focus();
+        });
+      });
+
+      queryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const lessonContext = document.querySelector("#lesson_context").value.trim();
+        const file = document.querySelector("#lesson_file").files[0];
+        if (!lessonContext && !file) {
+          renderError("Hãy nạp lesson mẫu, dán context hoặc upload tài liệu trước.");
+          return;
+        }
+        submitButton.disabled = true;
+        resultArea.innerHTML = '<div class="loading-card"><span class="spinner"></span>Agent đang đọc lesson và kiểm tra grounding...</div>';
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+        runLabel.textContent = "Đang xử lý...";
+        const payload = new FormData(decisionForm);
+        payload.set("user_query", queryInput.value.trim());
+        try {
+          const response = await fetch("/api/decide", { method: "POST", body: payload });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "Request thất bại");
+          renderResult(data);
+          runLabel.textContent = `Đã chạy lúc ${new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+        } catch (error) {
+          renderError(error.message);
+          runLabel.textContent = "Lượt chạy thất bại";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

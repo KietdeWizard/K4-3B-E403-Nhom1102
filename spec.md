@@ -110,9 +110,9 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | Run | Model | Bo test | Tong | Pass | Fail | Pass rate | Ghi chu |
 |---|---|---:|---:|---:|---:|---:|---|
 | run1 | gpt-4o-mini | `eval/golden_set.json` | 22 | 6 | 16 | 27.3% | Decision/grounding layer. Safety out-of-scope dat 2/2. Fail chinh do `lecture_context` qua ngan, chua phai slide/transcript that |
-| run2 | pending | `eval/glossary_demo_cases.json` | 4 | pending | pending | pending | Se chay sau khi API/app on dinh voi UI glossary cards |
+| run2 | gpt-4o-mini | `eval/run2_glossary_results.md` | 2 | 2 | 0 | 100% | Corrective smoke test voi lesson context that tu 2 bai khac nhau. Khong thay the bo golden set 22 case |
 
-- **Tu khai han che:** Run 1 chua do day du chat luong glossary cards. Full concept map va tu dong tao glossary cho toan khoa hoc chua lam trong prototype nay.
+- **Tu khai han che:** Run 1 chua do day du chat luong glossary cards. Run 2 chi la smoke test nho de kiem tra hypothesis "co context that thi glossary resolve tot hon", khong du de ket luan accuracy production. Full concept map va tu dong tao glossary cho toan khoa hoc chua lam trong prototype nay.
 
 ## §8. Phân Công & Kế Hoạch
 
@@ -143,4 +143,5 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | 2026-09-18 16:50 | Them `eval/glossary_demo_cases.json` va `eval/run2_glossary_plan.md` | Chuan bi Run 2 cho glossary layer |
 | 2026-09-18 18:30 | Hoàn thành vòng validation 4.2 với 02 willing users Võ Đức Tài (`2A202603007`) & Đỗ Đình Long (`2A202602673`) | Ghi nhận nhật ký thử nghiệm tại `validation/user_testing_log.md` |
 | 2026-09-18 18:45 | Thêm tooltip định dạng `source_ids` và làm rõ badge an toàn `unsupported` | Giải quyết phản hồi UX từ vòng validation người dùng |
+| 2026-09-18 21:20 | Chay Run 2 corrective smoke test voi 2 lesson context that, dat 2/2 | Kiem tra lai failure analysis cua Run 1: khi context giong product flow hon, glossary cards resolve tot hon |
 

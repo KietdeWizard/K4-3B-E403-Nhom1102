@@ -36,6 +36,11 @@ ALLOWED_BEHAVIORS = {
 }
 SOURCE_ID_PATTERN = re.compile(r"T\d{2}-\d{3}")
 WORD_PATTERN = re.compile(r"[\w-]{3,}", re.UNICODE)
+SECRET_PATTERNS = [
+    re.compile(r"Bearer\s+[A-Za-z0-9_\-]+", re.IGNORECASE),
+    re.compile(r"sk-[A-Za-z0-9_\-]+"),
+    re.compile(r"AIza[0-9A-Za-z_\-]+"),
+]
 DEFAULT_LOG_PATH = Path(__file__).with_name("logs") / "ai_decision_runs.jsonl"
 MAX_CONTEXT_CHARS = 28000
 STOP_WORDS = {
@@ -181,13 +186,34 @@ def _request_json(url: str, payload: dict[str, Any], headers: dict[str, str]) ->
         return response.read().decode("utf-8")
 
 
+def sanitize_text(value: str | None) -> str | None:
+    """Redact credentials before they can reach logs or the UI."""
+    if value is None:
+        return None
+    sanitized = value
+    for pattern in SECRET_PATTERNS:
+        sanitized = pattern.sub("[REDACTED]", sanitized)
+    return sanitized
+
+
+def sanitize_record(value: Any) -> Any:
+    """Recursively redact secrets in nested logging/result payloads."""
+    if isinstance(value, str):
+        return sanitize_text(value)
+    if isinstance(value, list):
+        return [sanitize_record(item) for item in value]
+    if isinstance(value, dict):
+        return {key: sanitize_record(item) for key, item in value.items()}
+    return value
+
+
 def call_model(prompt: str) -> str:
     """Call the configured live model and return its raw response text."""
     provider = os.getenv("AI_PROVIDER", "openai").lower()
     model = os.getenv("AI_MODEL")
 
     if provider == "gemini":
-        api_key = os.getenv("GEMINI_API_KEY")
+        api_key = (os.getenv("GEMINI_API_KEY") or "").strip()
         if not api_key:
             raise RuntimeError("GEMINI_API_KEY is not configured")
         model = model or "gemini-2.0-flash"
@@ -203,7 +229,7 @@ def call_model(prompt: str) -> str:
         response = json.loads(raw)
         return response["candidates"][0]["content"]["parts"][0]["text"]
 
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = (os.getenv("OPENAI_API_KEY") or "").strip()
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is not configured")
     model = model or "gpt-4o-mini"
@@ -342,20 +368,20 @@ def log_request(
     record = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "prompt": prompt,
-        "raw_response": raw_response,
-        "result": result,
-        "error": error,
+        "raw_response": sanitize_text(raw_response),
+        "result": sanitize_record(result),
+        "error": sanitize_text(error),
     }
     with path.open("a", encoding="utf-8") as log_file:
         log_file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
-def fallback_result(reason: str) -> dict[str, Any]:
+def fallback_result(reason: str, *, public_reason: str | None = None) -> dict[str, Any]:
     """Return a safe result when the model call or response validation fails."""
     return {
         "behavior": "clarify",
         "canonical_terms": [],
-        "answer": reason,
+        "answer": public_reason or sanitize_text(reason) or "Không thể xác minh bằng model.",
         "source_ids": [],
         "relations": [],
         "confidence_score": 0.0,
@@ -388,8 +414,14 @@ def decide(
             topic_history=topic_history,
         )
     except (ValueError, RuntimeError, KeyError, TypeError, json.JSONDecodeError, urllib.error.URLError) as exc:
-        error = str(exc)
-        result = fallback_result(f"Không thể xác minh bằng model: {error}")
+        error = sanitize_text(str(exc))
+        result = fallback_result(
+            f"Không thể xác minh bằng model: {error}",
+            public_reason=(
+                "Không thể xác minh bằng model ở lượt chạy này. "
+                "Vui lòng kiểm tra cấu hình API key/server log rồi thử lại."
+            ),
+        )
 
     log_request(prompt, raw_response, result, log_path=log_path, error=error)
     return result

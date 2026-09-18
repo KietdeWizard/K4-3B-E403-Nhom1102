@@ -10,7 +10,7 @@
 |---|---:|
 | Run ID | `run1` |
 | Model | `gpt-4o-mini` |
-| Timestamp | 2026-09-18T06:54:55.940474+00:00 |
+| Timestamp | 2026-09-18T09:51:39.130388+00:00 |
 | Total cases | 22 |
 | Passed | 6 |
 | Failed | 16 |
@@ -34,8 +34,8 @@
 
 | Taxonomy | Total | Passed | Failed | Pass Rate |
 |---|---:|---:|---:|---:|
-| `source_of_truth` | 5 | 2 | 3 | 40.0% |
-| `ambiguous_missing_info` | 3 | 2 | 1 | 66.7% |
+| `source_of_truth` | 5 | 1 | 4 | 20.0% |
+| `ambiguous_missing_info` | 3 | 3 | 0 | 100.0% |
 | `out_of_scope_authority` | 2 | 2 | 0 | 100.0% |
 | `domain_specific` | 12 | 0 | 12 | 0.0% |
 
@@ -46,9 +46,9 @@
 | Expected Behavior | Total | Passed | Failed | Pass Rate |
 |---|---:|---:|---:|---:|
 | `resolve` | 16 | 1 | 15 | 6.2% |
-| `clarify` | 3 | 2 | 1 | 66.7% |
+| `clarify` | 3 | 3 | 0 | 100.0% |
 | `unsupported` | 2 | 2 | 0 | 100.0% |
-| `manual_review` | 1 | 1 | 0 | 100.0% |
+| `manual_review` | 1 | 0 | 1 | 0.0% |
 
 ---
 
@@ -58,11 +58,11 @@
 |---|---:|---:|---:|
 | `acronym` | 1 | 0 | 1 |
 | `alias` | 2 | 0 | 2 |
-| `ambiguous` | 1 | 0 | 1 |
+| `ambiguous` | 1 | 1 | 0 |
 | `compare_concepts` | 3 | 0 | 3 |
 | `concept_application` | 1 | 0 | 1 |
 | `concept_relationship` | 1 | 0 | 1 |
-| `conflicting_source` | 1 | 1 | 0 |
+| `conflicting_source` | 1 | 0 | 1 |
 | `define_concept` | 2 | 1 | 1 |
 | `deictic` | 1 | 1 | 0 |
 | `explain_mechanism` | 2 | 0 | 2 |
@@ -80,22 +80,22 @@
 
 | Case | Taxonomy | Category | Error Type | Reason | Fix Idea |
 |---|---|---|---|---|---|
-| G001 | source_of_truth | define_concept | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G002 | domain_specific | compare_concepts | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G003 | domain_specific | compare_concepts | sai canonical term | Model term 'RNN vs Transformer' doesn't match expected ['RNN', 'Transformer'] | Cải thiện fuzzy matching / alias lookup |
-| G004 | domain_specific | explain_mechanism | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G005 | domain_specific | concept_relationship | sai canonical term | Model term 'parallel processing' doesn't match expected ['Transformer'] | Cải thiện fuzzy matching / alias lookup |
-| G006 | ambiguous_missing_info | ambiguous | thiếu context nhưng vẫn đoán | Model resolved confidently instead of asking for clarification | Tăng threshold confidence cho ambiguous queries |
-| G008 | domain_specific | acronym | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G010 | domain_specific | alias | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G011 | domain_specific | alias | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G013 | domain_specific | lowercase | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G014 | domain_specific | concept_application | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G015 | source_of_truth | explain_mechanism | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G016 | domain_specific | compare_concepts | sai canonical term | Model term 'ai tạo sinh khác gì ai truyền thống' doesn't match expected ['Generative AI', 'Artificial Intelligence'] | Cải thiện fuzzy matching / alias lookup |
-| G017 | domain_specific | typo | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G019 | source_of_truth | wrong_assumption | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
-| G020 | domain_specific | multi_concept | thiếu context nhưng vẫn đoán | Model returned 'no-grounding' → 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G002 | domain_specific | compare_concepts | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G003 | domain_specific | compare_concepts | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G004 | domain_specific | explain_mechanism | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G005 | domain_specific | concept_relationship | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G008 | domain_specific | acronym | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G010 | domain_specific | alias | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G011 | domain_specific | alias | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G012 | source_of_truth | define_concept | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G013 | domain_specific | lowercase | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G014 | domain_specific | concept_application | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G015 | source_of_truth | explain_mechanism | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G016 | domain_specific | compare_concepts | sai canonical term | Model term 'Large Language Model' doesn't match expected ['Generative AI', 'Artificial Intelligence'] | Cải thiện fuzzy matching / alias lookup |
+| G017 | domain_specific | typo | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G019 | source_of_truth | wrong_assumption | thiếu context nhưng vẫn đoán | Model returned 'unsupported', expected 'resolve' | Tăng threshold confidence cho ambiguous queries |
+| G020 | domain_specific | multi_concept | sai canonical term | Model returned 'clarify', expected 'resolve' | Cải thiện fuzzy matching / alias lookup |
+| G022 | source_of_truth | conflicting_source | không manual_review khi nguồn mâu thuẫn | Model did not flag needs_human_check for conflicting source case | Thêm conflict detection logic |
 
 ---
 
@@ -136,37 +136,10 @@
 | `không manual_review khi nguồn mâu thuẫn` | Model kết luận chắc chắn dù nguồn xung đột |
 | `output JSON sai format` | Output không đúng schema yêu cầu |
 
-## Root Cause Analysis
-
-### Nguyên nhân chính: `lecture_context` trong golden set quá ngắn
-
-13/16 case fail đều có chung pattern: model trả `no-grounding` vì `lecture_context` chỉ là **tiêu đề topic** (vd: "Day 1 - Foundation: cách LLM hoạt động"), không phải nội dung slide/transcript thật.
-
-**Đây là hành vi ĐÚNG của model** — khi không có nội dung bài học để grounding, model đúng khi từ chối tự bịa. Vấn đề nằm ở thiết kế test, không phải ở model.
-
-### Phân loại chi tiết các failure
-
-| Root Cause | Số case | Case IDs | Fix |
-|---|---:|---|---|
-| `lecture_context` quá ngắn → model đúng khi nói no-grounding | 13 | G001,G002,G004,G008,G010,G011,G013,G014,G015,G017,G019,G020 | Run 2: cung cấp nội dung slide/transcript thật vào lecture_context |
-| Model nhận diện sai canonical term (term quá dài hoặc không chuẩn hóa) | 3 | G003,G005,G016 | Cải thiện post-processing: normalize term output, fuzzy match với glossary_fixture |
-| Model resolve khi lẽ ra phải clarify | 1 | G006 | Thêm rule: nếu query chỉ 1 từ + term có nhiều nghĩa → clarify thay vì resolve |
-
-### Điểm tích cực
-
-| Chiều | Kết quả | Đánh giá |
-|---|---|---|
-| **Safety (out_of_scope)** | 2/2 pass (100%) | ✅ Xuất sắc — prompt injection và unsupported concept đều bị từ chối đúng |
-| **Manual review** | 1/1 pass (100%) | ✅ Tốt — đánh dấu needs_human_check khi nguồn mâu thuẫn |
-| **Clarify** | 2/3 pass (66.7%) | ⚠️ Khá — deictic và missing_context xử lý đúng, chỉ sai case ambiguous |
-| **Không hallucinate** | 13/13 no-grounding cases | ✅ Model không bịa khi thiếu context — đúng nguyên tắc G10 |
-
 ---
 
 ## Next Steps
 
-1. **Run 2** — Cung cấp nội dung slide/transcript thật vào `lecture_context` của golden set → chạy lại eval
-2. **Cải thiện term normalization** — Post-process model output: fuzzy match `term` với `glossary_fixture.json` (canonical + aliases)
-3. **Thêm ambiguity detection** — Khi query chỉ có 1 từ và term có nhiều nghĩa trong glossary → force `clarify`
-4. **Cập nhật spec.md §7** — Ghi nhận kết quả run1 và kế hoạch run2
-
+1. **Chờ output contract cuối từ Anh** → cập nhật `model_output` trong `run1_results.json`
+2. **Chạy lại** `python scripts/run_eval.py --live --update-summary`
+3. **Nếu pass rate < quality bar** → phân tích failure, đề xuất fix trong Failure Analysis table

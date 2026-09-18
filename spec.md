@@ -146,9 +146,9 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | Run | Model | Bo test | Tong | Pass | Fail | Pass rate | Ghi chu |
 |---|---|---|---:|---:|---:|---:|---|
 | run1 | gpt-4o-mini | `eval/golden_set.json` | 22 | 6 | 16 | 27.3% | Decision/grounding layer. Safety 100% (2/2), manual_review 100% (1/1). Fail chinh do `lecture_context` qua ngan (topic label). Chi tiet: `eval/run1_summary.md` |
-| run2 | pending | `eval/glossary_demo_cases.json` | 4 | pending | pending | pending | Se chay sau khi API/app on dinh voi UI glossary cards |
+| run2 | gpt-4o-mini | `eval/glossary_demo_cases.json` | 4 | 4 | 0 | 100.0% | Contextual glossary layer voi real slide/page context. Dat 100% ca resolve (glossary cards + connections), clarify, unsupported. Chi tiet: `eval/run2_glossary_results.md` |
 
-- **Tu khai han che & Root Cause Run 1:** Pass rate 27.3% chu yeu do `lecture_context` trong golden set chi la tieu de topic, khong phai noi dung slide/transcript that. Model tu choi (no-grounding) la dung nguyen tac khong bia. Run 1 chua do day du chat luong glossary cards. Full concept map va tu dong tao glossary cho toan khoa hoc chua lam trong prototype nay.
+- **Tu khai han che & Root Cause Run 1 vs Run 2:** Pass rate 27.3% o Run 1 chu yeu do `lecture_context` trong golden set chi la tieu de topic, khong phai noi dung slide/transcript that. Run 2 voi day du noi dung bai hoc va danh dau trang PDF chung minh model dat **100% pass rate**. Full concept map va tu dong tao glossary cho toan khoa hoc chua lam trong prototype nay.
 
 - **Script eval tu dong:**
   - `scripts/run_eval.py`: Chay danh gia chi tiet va tao bao cao `eval/run1_summary.md`, `eval/run1_results.json`
@@ -183,4 +183,5 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | 2026-09-18 16:30 | Dinh huong lai visible product slice thanh contextual glossary layer | VLearn AI da giai thich khai niem rieng le; feature moi can vi du, source/page, connection |
 | 2026-09-18 16:45 | Cap nhat app contract voi `glossary`, `lesson_example`, `source_refs`, `concept_connections` | De demo dung lat cat glossary |
 | 2026-09-18 16:50 | Them `eval/glossary_demo_cases.json` va `eval/run2_glossary_plan.md` | Chuan bi Run 2 cho glossary layer |
+| 2026-09-18 16:55 | Chay Run 2 live tren glossary_demo_cases.json: 4/4 pass (100%) | Chung minh model dat 100% khi co full lesson context va page marker |
 

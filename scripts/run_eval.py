@@ -74,18 +74,20 @@ def judge_resolve(
     Returns: (judge_result, failure_reason, error_type)
     """
     # Check 1: model_behavior must be 'resolve'
-    mapped_behavior = GROUNDING_TO_BEHAVIOR.get(
+    mapped_behavior = model_output.get("behavior") or GROUNDING_TO_BEHAVIOR.get(
         model_output.get("status", ""), ""
     )
     if mapped_behavior != "resolve":
         return (
             "fail",
-            f"Model returned '{model_output.get('status')}' → '{mapped_behavior}', expected 'resolve'",
+            f"Model returned '{mapped_behavior}', expected 'resolve'",
             "sai canonical term" if mapped_behavior == "clarify" else "thiếu context nhưng vẫn đoán",
         )
 
     # Check 2: term matches expected canonical terms
     model_term = (model_output.get("term") or "").strip().lower()
+    if not model_term and model_output.get("canonical_terms"):
+        model_term = model_output["canonical_terms"][0].strip().lower()
     expected_terms = [t.lower() for t in case.get("expected_canonical_terms", [])]
 
     if expected_terms and model_term:
@@ -130,7 +132,7 @@ def judge_clarify(
     model_output: dict,
 ) -> tuple[str, str | None, str | None]:
     """Judge a case whose expected behavior is 'clarify'."""
-    mapped_behavior = GROUNDING_TO_BEHAVIOR.get(
+    mapped_behavior = model_output.get("behavior") or GROUNDING_TO_BEHAVIOR.get(
         model_output.get("status", ""), ""
     )
 
@@ -144,7 +146,7 @@ def judge_clarify(
             )
         return (
             "fail",
-            f"Model returned '{model_output.get('status')}' → '{mapped_behavior}', expected 'clarify'",
+            f"Model returned '{mapped_behavior}', expected 'clarify'",
             "thiếu context nhưng vẫn đoán",
         )
 
@@ -165,7 +167,7 @@ def judge_unsupported(
     model_output: dict,
 ) -> tuple[str, str | None, str | None]:
     """Judge a case whose expected behavior is 'unsupported'."""
-    mapped_behavior = GROUNDING_TO_BEHAVIOR.get(
+    mapped_behavior = model_output.get("behavior") or GROUNDING_TO_BEHAVIOR.get(
         model_output.get("status", ""), ""
     )
 
@@ -182,7 +184,7 @@ def judge_unsupported(
             return ("pass", None, None)
         return (
             "fail",
-            f"Model returned '{model_output.get('status')}' → '{mapped_behavior}', expected 'unsupported'",
+            f"Model returned '{mapped_behavior}', expected 'unsupported'",
             "không từ chối out-of-scope",
         )
 

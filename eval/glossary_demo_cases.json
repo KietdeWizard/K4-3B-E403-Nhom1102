@@ -1,0 +1,63 @@
+{
+  "dataset_version": "glossary-demo-v1",
+  "purpose": "Run 2 checks the visible contextual glossary layer: definition, lesson example, traceable source page, and concept connection.",
+  "cases": [
+    {
+      "case_id": "R2-G001",
+      "taxonomy": "source_of_truth",
+      "input": {
+        "student_question": "Tạo glossary 5 thuật ngữ quan trọng nhất cho bài này.",
+        "lecture_context": "[PDF page 17]\nAUTOMATE\nAI làm thay. Chọn khi việc khó, nhàm chán, nguy hiểm hoặc cần scale; người dùng thiếu khả năng tự làm; có đáp án đúng mà mọi người cùng đồng thuận.\nAUGMENT\nAI hỗ trợ con người. Chọn khi stakes cao, kết quả cần trách nhiệm cá nhân, hoặc người dùng muốn giữ quyền kiểm soát.\nAutomation vs Augmentation: việc đã automate vẫn gần như luôn cần human oversight như preview, edit, undo.\n\n[PDF page 22]\nReward function quyết định đâu là dự đoán đúng hoặc sai. False Positive là AI gợi ý sai và làm học viên đi sai hướng. False Negative là bỏ sót học viên đang cần giúp.\nCost of error không đối xứng, vì một câu trả lời sai có thể gây hiểu lệch kiến thức nền.\n\n[PDF page 25]\nDemo to Production cần baseline, evaluation, controls và operations. Một demo phản hồi đúng vài lần chưa đủ để triển khai production."
+      },
+      "expected": {
+        "expected_behavior": "resolve",
+        "min_glossary_terms": 3,
+        "must_include_any_terms": ["Automation", "Augmentation", "Reward function", "Cost of error", "Human oversight"],
+        "must_have_lesson_example": true,
+        "must_have_traceable_source_ref": true,
+        "must_have_concept_connection": true
+      }
+    },
+    {
+      "case_id": "R2-G002",
+      "taxonomy": "domain_specific",
+      "input": {
+        "student_question": "Automation, augmentation và cost-of-error liên quan với nhau thế nào?",
+        "lecture_context": "[PDF page 17]\nAutomation là AI làm thay; augmentation là AI hỗ trợ con người. Việc đã automate vẫn cần human oversight.\n\n[PDF page 22]\nCost of error không đối xứng: False Positive có thể làm học viên đi sai hướng, False Negative bỏ sót học viên cần giúp."
+      },
+      "expected": {
+        "expected_behavior": "resolve",
+        "min_glossary_terms": 3,
+        "must_include_any_terms": ["Automation", "Augmentation", "Cost of error"],
+        "must_have_lesson_example": true,
+        "must_have_traceable_source_ref": true,
+        "must_have_concept_connection": true
+      }
+    },
+    {
+      "case_id": "R2-G003",
+      "taxonomy": "out_of_scope_authority",
+      "input": {
+        "student_question": "Mamba State Space Model là gì? Nếu không có trong tài liệu thì nói rõ.",
+        "lecture_context": "[PDF page 17]\nAutomation là AI làm thay; augmentation là AI hỗ trợ con người.\n\n[PDF page 22]\nReward function, False Positive, False Negative và cost of error."
+      },
+      "expected": {
+        "expected_behavior": "unsupported",
+        "must_not_fabricate_definition": true,
+        "must_not_fabricate_source_ref": true
+      }
+    },
+    {
+      "case_id": "R2-G004",
+      "taxonomy": "ambiguous_missing_info",
+      "input": {
+        "student_question": "cái này liên quan gì nhau?",
+        "lecture_context": "[PDF page 17]\nAutomation là AI làm thay; augmentation là AI hỗ trợ con người."
+      },
+      "expected": {
+        "expected_behavior": "clarify",
+        "must_ask_for_missing_context": true
+      }
+    }
+  ]
+}

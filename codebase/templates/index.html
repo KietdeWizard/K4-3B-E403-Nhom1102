@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VLearn Contextual Glossary</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+      :root {
+        --ink: #17252a;
+        --muted: #66787d;
+        --paper: #f5f1e8;
+        --panel: #fffdf8;
+        --line: #ded8ca;
+        --teal: #0e716c;
+        --teal-dark: #07524f;
+        --lime: #c8e36d;
+        --gold: #e7b65b;
+        --shadow: 0 18px 50px rgba(45, 51, 43, .09);
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      body { margin: 0; color: var(--ink); background: var(--paper); font-family: "DM Sans", "Segoe UI", sans-serif; }
+      button, textarea, input { font: inherit; }
+      button { cursor: pointer; }
+      .topbar { height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 34px; border-bottom: 1px solid var(--line); background: rgba(255, 253, 248, .9); }
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; color: var(--teal-dark); background: var(--lime); border-radius: 8px; font-family: "Space Grotesk", sans-serif; font-weight: 700; }
+      .brand-name { font-family: "Space Grotesk", sans-serif; font-weight: 700; }
+      .eyebrow { color: var(--muted); font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+      .top-status { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+      .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #52a45c; box-shadow: 0 0 0 4px rgba(82, 164, 92, .13); }
+      .workspace { display: grid; grid-template-columns: 360px minmax(0, 1fr); max-width: 1480px; min-height: calc(100vh - 72px); margin: 0 auto; }
+      .sidebar { padding: 34px 28px; border-right: 1px solid var(--line); }
+      .sidebar h1 { margin: 8px 0 12px; max-width: 290px; font: 700 34px/1.06 "Space Grotesk", sans-serif; }
+      .sidebar-intro { color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .lesson-panel { margin-top: 28px; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+      .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+      .panel-title { font-weight: 700; font-size: 14px; }
+      .panel-count { color: var(--muted); font-size: 12px; }
+      label { display: block; margin: 16px 0 7px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .03em; }
+      textarea { width: 100%; min-height: 108px; resize: vertical; padding: 12px; color: var(--ink); background: #faf8f1; border: 1px solid var(--line); border-radius: 8px; outline: none; line-height: 1.5; }
+      textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(14, 113, 108, .12); }
+      .file-input { display: block; padding: 11px; color: var(--muted); background: #faf8f1; border: 1px dashed #bcb7aa; border-radius: 8px; font-size: 12px; }
+      .file-input input { width: 100%; margin-top: 8px; font-size: 12px; }
+      .demo-button { width: 100%; margin-top: 16px; padding: 11px 13px; color: var(--teal-dark); background: var(--lime); border: 0; border-radius: 8px; font-weight: 700; }
+      .sidebar-note { margin-top: 18px; padding: 13px 14px; color: #786b4f; background: #f9eaca; border-left: 3px solid var(--gold); border-radius: 8px; font-size: 12px; line-height: 1.5; }
+      .content { min-width: 0; padding: 34px clamp(24px, 5vw, 72px) 64px; }
+      .content-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; max-width: 960px; }
+      .content-head h2 { margin: 4px 0 0; font: 600 27px "Space Grotesk", sans-serif; }
+      .run-label { color: var(--muted); font-size: 12px; }
+      .query-box { display: flex; gap: 10px; max-width: 960px; margin-top: 24px; padding: 8px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+      .query-box textarea { min-height: 54px; height: 54px; border: 0; background: transparent; box-shadow: none; resize: none; }
+      .query-box textarea:focus { box-shadow: none; }
+      .ask-button { align-self: stretch; min-width: 128px; padding: 0 18px; color: #fffdf8; background: var(--teal); border: 0; border-radius: 8px; font-weight: 700; }
+      .ask-button:disabled { opacity: .6; cursor: wait; }
+      .suggestions { display: flex; flex-wrap: wrap; gap: 8px; max-width: 960px; margin-top: 13px; }
+      .suggestion { padding: 7px 11px; color: var(--teal-dark); background: transparent; border: 1px solid #b9d0c9; border-radius: 999px; font-size: 12px; }
+      .result-shell { max-width: 960px; margin-top: 34px; }
+      .empty-state { min-height: 330px; display: grid; place-items: center; padding: 36px; text-align: center; background: rgba(255, 253, 248, .55); border: 1px dashed #c9c1b2; border-radius: 8px; }
+      .empty-icon { width: 62px; height: 62px; display: grid; place-items: center; margin: 0 auto 17px; color: var(--teal-dark); background: var(--lime); border-radius: 8px; font: 700 25px "Space Grotesk", sans-serif; }
+      .empty-state h3 { margin: 0 0 8px; font: 600 22px "Space Grotesk", sans-serif; }
+      .empty-state p { max-width: 470px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+      .result-card { overflow: hidden; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); }
+      .result-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+      .behavior { display: inline-flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+      .behavior::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+      .behavior.resolve { color: #2d754a; background: #e1f2df; }
+      .behavior.clarify { color: #916718; background: #f9eaca; }
+      .behavior.unsupported { color: #a2473d; background: #f9dfd8; }
+      .behavior.manual_review { color: #5f579b; background: #e6e3f7; }
+      .confidence { color: var(--muted); font-size: 12px; }
+      .answer-block { padding: 22px; }
+      .answer-block h3 { margin: 0 0 10px; font: 600 24px/1.2 "Space Grotesk", sans-serif; }
+      .answer { max-width: 760px; margin: 0; font-size: 16px; line-height: 1.65; }
+      .human-check { display: inline-block; margin-top: 14px; padding: 6px 9px; color: #916718; background: #fff2ca; border-radius: 6px; font-size: 12px; font-weight: 700; }
+      .glossary-list { display: grid; gap: 12px; padding: 0 22px 22px; }
+      .term-card { padding: 16px; background: #faf8f1; border: 1px solid var(--line); border-radius: 8px; }
+      .term-card h4 { margin: 0 0 8px; font: 700 18px/1.25 "Space Grotesk", sans-serif; }
+      .term-card p { margin: 8px 0; color: var(--ink); font-size: 14px; line-height: 1.55; }
+      .meta-label { color: var(--muted); font-weight: 700; }
+      .chips, .source-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+      .chip { padding: 6px 9px; color: var(--teal-dark); background: #e5f1df; border-radius: 6px; font-size: 12px; font-weight: 700; }
+      .source { padding: 6px 9px; color: #765e29; background: #f8e9c8; border-radius: 6px; font: 600 12px "Space Grotesk", sans-serif; }
+      .connections { padding: 18px 22px; border-top: 1px solid var(--line); background: #f9f4e8; }
+      .connections h4, .detail h4 { margin: 0 0 10px; color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+      .connections ul { margin: 0; padding-left: 18px; }
+      .connections li { margin: 6px 0; font-size: 14px; line-height: 1.5; }
+      .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+      .detail { min-height: 105px; padding: 18px 22px; background: var(--panel); }
+      .empty-detail { color: var(--muted); font-size: 13px; }
+      .error-card { padding: 18px 20px; color: #933e35; background: #f9dfd8; border: 1px solid #e8b8ad; border-radius: 8px; }
+      .loading-card { padding: 28px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+      .spinner { display: inline-block; width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px; border: 2px solid #c6d0c7; border-top-color: var(--teal); border-radius: 50%; animation: spin .8s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      @media (max-width: 850px) {
+        .topbar { padding: 0 18px; }
+        .top-status { display: none; }
+        .workspace { display: block; }
+        .sidebar { padding: 26px 18px; border-right: 0; border-bottom: 1px solid var(--line); }
+        .sidebar h1 { max-width: none; font-size: 32px; }
+        .content { padding: 26px 18px 48px; }
+        .content-head { align-items: start; flex-direction: column; gap: 5px; }
+      }
+      @media (max-width: 560px) {
+        .query-box { display: block; }
+        .ask-button { width: 100%; min-height: 45px; }
+        .detail-grid { grid-template-columns: 1fr; }
+        .result-top { align-items: start; flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">V</div>
+          <div>
+            <div class="brand-name">VLEARN</div>
+            <div class="eyebrow">Glossary layer</div>
+          </div>
+        </div>
+        <div class="top-status"><span class="status-dot"></span> Live AI call + traceable sources</div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <div class="eyebrow">Lesson workspace</div>
+          <h1>Glossary theo ngữ cảnh bài học.</h1>
+          <p class="sidebar-intro">Upload slide hoặc dán nội dung bài. Agent tạo glossary ngắn có định nghĩa, ví dụ trong bài, nguồn trang và liên kết khái niệm.</p>
+
+          <form id="decision-form" class="lesson-panel">
+            <div class="panel-head">
+              <span class="panel-title">Nguồn bài học</span>
+              <span class="panel-count">context</span>
+            </div>
+            <label class="file-input" for="lesson_file">
+              Upload PDF, PPTX, TXT hoặc Markdown
+              <input id="lesson_file" name="lesson_file" type="file" accept=".pdf,.pptx,.txt,.md" />
+            </label>
+            <label for="lesson_context">Hoặc dán nội dung bài</label>
+            <textarea id="lesson_context" name="lesson_context" placeholder="Ví dụ: [PDF page 17] Automation vs Augmentation..."></textarea>
+            <label for="topic_history">Lịch sử cùng topic <span class="panel-count">(tuỳ chọn)</span></label>
+            <textarea id="topic_history" name="topic_history" placeholder="Các thuật ngữ học viên đã hỏi trước đó..."></textarea>
+            <button class="demo-button" id="demo-button" type="button">Nạp lesson mẫu</button>
+            <div class="sidebar-note">Nguồn chỉ được giữ lại khi xuất hiện thật trong context, ví dụ <strong>PDF page 17</strong> hoặc <strong>T04-003</strong>. Không có căn cứ thì agent phải hỏi lại hoặc từ chối.</div>
+          </form>
+        </aside>
+
+        <main class="content">
+          <div class="content-head">
+            <div>
+              <div class="eyebrow">Ask your lesson</div>
+              <h2>Contextual glossary cards</h2>
+            </div>
+            <span class="run-label" id="run-label">Chưa có lượt chạy</span>
+          </div>
+
+          <form id="query-form" class="query-box">
+            <label class="sr-only" for="user_query">Câu hỏi của học viên</label>
+            <textarea id="user_query" name="user_query" placeholder="Ví dụ: Tạo glossary 5 thuật ngữ quan trọng nhất cho bài này." required></textarea>
+            <button class="ask-button" id="submit-button" type="submit">Generate</button>
+          </form>
+          <div class="suggestions" aria-label="Câu hỏi gợi ý">
+            <button class="suggestion" type="button" data-query="Tạo glossary 5 thuật ngữ quan trọng nhất cho bài này.">Generate glossary</button>
+            <button class="suggestion" type="button" data-query="Automation, augmentation và cost-of-error liên quan với nhau thế nào?">Concept connection</button>
+            <button class="suggestion" type="button" data-query="Mamba State Space Model là gì? Nếu không có trong tài liệu thì nói rõ.">Out of scope</button>
+          </div>
+
+          <section class="result-shell" aria-live="polite">
+            <div class="empty-state" id="empty-state">
+              <div>
+                <div class="empty-icon">?</div>
+                <h3>Tạo glossary để bắt đầu</h3>
+                <p>Prototype này chứng minh feature mới: không chỉ giải thích một thuật ngữ, mà gom thuật ngữ cùng topic thành card có ví dụ, nguồn trang và quan hệ.</p>
+              </div>
+            </div>
+            <div id="result-area" hidden></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const decisionForm = document.querySelector("#decision-form");
+      const queryForm = document.querySelector("#query-form");
+      const queryInput = document.querySelector("#user_query");
+      const submitButton = document.querySelector("#submit-button");
+      const emptyState = document.querySelector("#empty-state");
+      const resultArea = document.querySelector("#result-area");
+      const runLabel = document.querySelector("#run-label");
+      const demoButton = document.querySelector("#demo-button");
+      const demoContext = `[PDF page 17]
+AUTOMATE
+AI làm thay. Chọn khi việc khó, nhàm chán, nguy hiểm hoặc cần scale; người dùng thiếu khả năng tự làm; có đáp án đúng mà mọi người cùng đồng thuận.
+AUGMENT
+AI hỗ trợ con người. Chọn khi stakes cao, kết quả cần trách nhiệm cá nhân, hoặc người dùng muốn giữ quyền kiểm soát.
+Automation vs Augmentation: việc đã automate vẫn gần như luôn cần human oversight như preview, edit, undo.
+
+[PDF page 22]
+Reward function quyết định đâu là dự đoán đúng hoặc sai. False Positive là AI gợi ý sai và làm học viên đi sai hướng. False Negative là bỏ sót học viên đang cần giúp.
+Cost of error không đối xứng, vì một câu trả lời sai có thể gây hiểu lệch kiến thức nền.
+
+[PDF page 25]
+Demo to Production cần baseline, evaluation, controls và operations. Một demo phản hồi đúng vài lần chưa đủ để triển khai production.`;
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>'"]/g, (character) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"}[character]));
+      }
+
+      function listMarkup(items, className, emptyText) {
+        if (!items || !items.length) return `<span class="empty-detail">${emptyText}</span>`;
+        const itemClass = className === "source-list" ? "source" : "chip";
+        return `<div class="${className}">${items.map((item) => `<span class="${itemClass}">${escapeHtml(item)}</span>`).join("")}</div>`;
+      }
+
+      function renderGlossary(glossary) {
+        if (!glossary || !glossary.length) return "";
+        return `<div class="glossary-list">${glossary.map((item) => `
+          <section class="term-card">
+            <h4>${escapeHtml(item.term)}</h4>
+            <p><span class="meta-label">Định nghĩa:</span> ${escapeHtml(item.definition)}</p>
+            ${item.lesson_example ? `<p><span class="meta-label">Ví dụ trong bài:</span> ${escapeHtml(item.lesson_example)}</p>` : ""}
+            ${listMarkup(item.source_refs, "source-list", "Chưa trace được nguồn")}
+            ${listMarkup(item.related_terms, "chips", "Chưa có thuật ngữ liên quan")}
+          </section>`).join("")}</div>`;
+      }
+
+      function renderConnections(connections) {
+        if (!connections || !connections.length) return "";
+        return `<section class="connections"><h4>Concept connections</h4><ul>${connections.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></section>`;
+      }
+
+      function renderResult(data) {
+        const behavior = data.behavior || "clarify";
+        const confidence = typeof data.confidence_score === "number" ? `${Math.round(data.confidence_score * 100)}% confidence` : "Chưa xác định confidence";
+        const title = data.glossary?.[0]?.term || data.canonical_terms?.[0] || "Lesson glossary";
+        resultArea.innerHTML = `
+          <article class="result-card">
+            <div class="result-top">
+              <span class="behavior ${escapeHtml(behavior)}">${escapeHtml(behavior.replace("_", " "))}</span>
+              <span class="confidence">${confidence}</span>
+            </div>
+            <div class="answer-block">
+              <div class="eyebrow">Agent summary</div>
+              <h3>${escapeHtml(title)}</h3>
+              <p class="answer">${escapeHtml(data.answer)}</p>
+              ${data.needs_human_check ? '<span class="human-check">Cần human check</span>' : ""}
+            </div>
+            ${renderGlossary(data.glossary)}
+            ${renderConnections(data.concept_connections)}
+            <div class="detail-grid">
+              <div class="detail"><h4>Source refs</h4>${listMarkup(data.source_refs || data.source_ids, "source-list", "Chưa có source hợp lệ")}</div>
+              <div class="detail"><h4>Canonical terms</h4>${listMarkup(data.canonical_terms, "chips", "Không map được thuật ngữ")}</div>
+              <div class="detail"><h4>Relations</h4>${listMarkup(data.relations, "chips", "Không có quan hệ liên quan")}</div>
+              <div class="detail"><h4>Decision</h4><span class="empty-detail">${escapeHtml(behavior === "resolve" ? "Đủ căn cứ để tạo glossary." : behavior === "clarify" ? "Cần thêm ngữ cảnh trước khi kết luận." : behavior === "manual_review" ? "Nguồn cần được giảng viên kiểm tra." : "Ngoài phạm vi lesson hiện tại.")}</span></div>
+            </div>
+          </article>`;
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+      }
+
+      function renderError(message) {
+        resultArea.innerHTML = `<div class="error-card"><strong>Không thể chạy agent.</strong><br />${escapeHtml(message)}</div>`;
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+      }
+
+      demoButton.addEventListener("click", () => {
+        document.querySelector("#lesson_context").value = demoContext;
+        document.querySelector("#topic_history").value = "Học viên đã hỏi về automation, augmentation và cost-of-error trong cùng topic.";
+        queryInput.value = "Tạo glossary 5 thuật ngữ quan trọng nhất cho bài này.";
+        queryInput.focus();
+      });
+
+      document.querySelectorAll("[data-query]").forEach((button) => {
+        button.addEventListener("click", () => {
+          queryInput.value = button.dataset.query;
+          queryInput.focus();
+        });
+      });
+
+      queryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const lessonContext = document.querySelector("#lesson_context").value.trim();
+        const file = document.querySelector("#lesson_file").files[0];
+        if (!lessonContext && !file) {
+          renderError("Hãy nạp lesson mẫu, dán context hoặc upload tài liệu trước.");
+          return;
+        }
+        submitButton.disabled = true;
+        resultArea.innerHTML = '<div class="loading-card"><span class="spinner"></span>Agent đang đọc lesson, chọn thuật ngữ và trace nguồn...</div>';
+        emptyState.hidden = true;
+        resultArea.hidden = false;
+        runLabel.textContent = "Đang xử lý...";
+        const payload = new FormData(decisionForm);
+        payload.set("user_query", queryInput.value.trim());
+        try {
+          const response = await fetch("/api/decide", { method: "POST", body: payload });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "Request thất bại");
+          renderResult(data);
+          runLabel.textContent = `Đã chạy lúc ${new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+        } catch (error) {
+          renderError(error.message);
+          runLabel.textContent = "Lượt chạy thất bại";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

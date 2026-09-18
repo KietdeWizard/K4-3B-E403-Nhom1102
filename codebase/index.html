@@ -266,34 +266,39 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>term</code></td>
-              <td>Embedding</td>
-              <td>Keyword quan trọng trong bài.</td>
+              <td><code>behavior</code></td>
+              <td>resolve</td>
+              <td>Route chuẩn hóa: resolve, clarify, unsupported hoặc manual_review.</td>
             </tr>
             <tr>
-              <td><code>definition</code></td>
-              <td>Vector số biểu diễn token để model xử lý.</td>
-              <td>Giải thích ngắn, đúng ngữ cảnh bài.</td>
+              <td><code>canonical_terms</code></td>
+              <td>Large Language Model</td>
+              <td>Các thuật ngữ chuẩn được map từ câu hỏi.</td>
             </tr>
             <tr>
-              <td><code>source</code></td>
-              <td>Slide 12: "Each token is mapped into an embedding."</td>
-              <td>Cho học viên biết căn cứ.</td>
+              <td><code>answer</code></td>
+              <td>LLM là...</td>
+              <td>Câu trả lời ngắn, chỉ dựa trên context đã cung cấp.</td>
             </tr>
             <tr>
-              <td><code>related_terms</code></td>
-              <td>token, attention</td>
-              <td>Thể hiện mối liên hệ giữa glossary/keyword.</td>
+              <td><code>source_ids</code></td>
+              <td>T04-003, T04-013</td>
+              <td>Chỉ nhận source ID xuất hiện thật trong lesson context.</td>
             </tr>
             <tr>
-              <td><code>learning_order</code></td>
-              <td>token → embedding → attention</td>
+              <td><code>relations</code></td>
+              <td>Generative AI</td>
               <td>Đề xuất thứ tự tìm hiểu.</td>
             </tr>
             <tr>
-              <td><code>confidence</code></td>
-              <td>high / low / no-grounding</td>
+              <td><code>confidence_score</code></td>
+              <td>0.87</td>
               <td>Quyết định agent tự trả lời hay thu hẹp phạm vi.</td>
+            </tr>
+            <tr>
+              <td><code>needs_human_check</code></td>
+              <td>false</td>
+              <td>Bật khi nguồn mâu thuẫn, mơ hồ hoặc model không xác minh được.</td>
             </tr>
           </tbody>
         </table>

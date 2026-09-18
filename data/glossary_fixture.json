@@ -1,0 +1,415 @@
+[
+  {
+    "term_id": "C001",
+    "canonical_term": "Artificial Intelligence",
+    "aliases": [
+      "AI",
+      "trí tuệ nhân tạo",
+      "trí thông minh nhân tạo"
+    ],
+    "definition": "Hệ thống có trí thông minh mô phỏng và tái tạo lại khả năng suy luận, giải quyết vấn đề của con người.",
+    "source_ids": [
+      "T04-015",
+      "T06-023",
+      "T06-027"
+    ],
+    "relations": [
+      {
+        "target_term": "Machine Learning",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-015",
+          "T06-027"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C002",
+    "canonical_term": "Machine Learning",
+    "aliases": [
+      "ML",
+      "học máy"
+    ],
+    "definition": "Phương pháp cung cấp dữ liệu cho máy tính để máy tự nhận diện quy luật và học từ dữ liệu thay vì lập trình tường minh bằng các luật thủ công.",
+    "source_ids": [
+      "T04-015",
+      "T06-027",
+      "T06-037"
+    ],
+    "relations": [
+      {
+        "target_term": "Artificial Intelligence",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-015"
+        ]
+      },
+      {
+        "target_term": "Deep Learning",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-015",
+          "T06-040"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C003",
+    "canonical_term": "Deep Learning",
+    "aliases": [
+      "DL",
+      "học sâu",
+      "mạng neuron sâu"
+    ],
+    "definition": "Tập con của Machine Learning xây dựng dựa trên mạng neuron nhân tạo nhiều tầng, có khả năng tự trích xuất đặc trưng phức tạp từ dữ liệu lớn mà không cần gán nhãn thủ công từng thuộc tính.",
+    "source_ids": [
+      "T04-015",
+      "T04-030",
+      "T06-040",
+      "T06-042"
+    ],
+    "relations": [
+      {
+        "target_term": "Machine Learning",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-015"
+        ]
+      },
+      {
+        "target_term": "Generative AI",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-015"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C004",
+    "canonical_term": "Generative AI",
+    "aliases": [
+      "GenAI",
+      "AI tạo sinh",
+      "trí tuệ nhân tạo tạo sinh"
+    ],
+    "definition": "Công nghệ AI tập con của Deep Learning có khả năng tạo ra nội dung mới (như văn bản, hình ảnh, mã nguồn, âm thanh) từ câu lệnh prompt của người dùng.",
+    "source_ids": [
+      "T04-015",
+      "T06-051"
+    ],
+    "relations": [
+      {
+        "target_term": "Deep Learning",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-015"
+        ]
+      },
+      {
+        "target_term": "Large Language Model",
+        "relation": "used_for",
+        "source_ids": [
+          "T04-015",
+          "T06-051"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C005",
+    "canonical_term": "Symbolic AI",
+    "aliases": [
+      "AI dựa trên luật",
+      "rule-based AI"
+    ],
+    "definition": "Hướng tiếp cận AI ban đầu dạy máy tính bằng cách để các chuyên gia viết ra toàn bộ các quy luật thủ công (if-else). Dễ gặp tình trạng bùng nổ tổ hợp khi bài toán quá rộng.",
+    "source_ids": [
+      "T04-024",
+      "T04-025"
+    ],
+    "relations": [
+      {
+        "target_term": "Expert System",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-028"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C006",
+    "canonical_term": "Perceptron",
+    "aliases": [
+      "mô hình perceptron"
+    ],
+    "definition": "Dạng mô hình neuron nhân tạo đơn giản đầu tiên cho phép máy học từ các ví dụ thay vì chỉ áp dụng luật thủ công, đặt nền móng cho kiến trúc Deep Learning.",
+    "source_ids": [
+      "T04-026"
+    ],
+    "relations": [
+      {
+        "target_term": "Deep Learning",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-026"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C007",
+    "canonical_term": "Expert System",
+    "aliases": [
+      "hệ chuyên gia",
+      "expert systems"
+    ],
+    "definition": "Hệ thống AI thu hẹp phạm vi vào một lĩnh vực chuyên môn cụ thể, áp dụng luật từ chuyên gia để xử lý tác vụ hẹp nhằm tránh bùng nổ tổ hợp.",
+    "source_ids": [
+      "T04-028",
+      "T04-029"
+    ],
+    "relations": [
+      {
+        "target_term": "Symbolic AI",
+        "relation": "type_of",
+        "source_ids": [
+          "T04-028"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C008",
+    "canonical_term": "Turing Test",
+    "aliases": [
+      "bài kiểm tra Turing",
+      "phép thử Turing"
+    ],
+    "definition": "Bài kiểm tra do Alan Turing đề xuất năm 1950: nếu người đánh giá không thể phân biệt được câu trả lời từ máy tính hay từ con người thì máy tính đó vượt qua bài test.",
+    "source_ids": [
+      "T04-018",
+      "T06-058"
+    ],
+    "relations": [
+      {
+        "target_term": "Artificial Intelligence",
+        "relation": "used_for",
+        "source_ids": [
+          "T04-018"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C009",
+    "canonical_term": "Large Language Model",
+    "aliases": [
+      "LLM",
+      "mô hình ngôn ngữ lớn"
+    ],
+    "definition": "Mô hình ngôn ngữ quy mô lớn được huấn luyện trên lượng dữ liệu văn bản khổng lồ, dựa trên kiến trúc Transformer để hiểu và tạo ra ngôn ngữ tự nhiên.",
+    "source_ids": [
+      "T04-003",
+      "T04-013",
+      "T06-045"
+    ],
+    "relations": [
+      {
+        "target_term": "Transformer",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-038",
+          "T04-040"
+        ]
+      },
+      {
+        "target_term": "Generative AI",
+        "relation": "type_of",
+        "source_ids": [
+          "T04-015"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C010",
+    "canonical_term": "Transformer",
+    "aliases": [
+      "kiến trúc transformer",
+      "transformer architecture"
+    ],
+    "definition": "Kiến trúc mô hình mạng neuron giới thiệu trong bài báo 'Attention Is All You Need' (2017) cho phép xử lý đồng thời toàn bộ câu văn bản thay vì đọc từng từ nối tiếp.",
+    "source_ids": [
+      "T04-038",
+      "T04-040",
+      "T06-021"
+    ],
+    "relations": [
+      {
+        "target_term": "Attention Mechanism",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-040"
+        ]
+      },
+      {
+        "target_term": "Large Language Model",
+        "relation": "prerequisite_of",
+        "source_ids": [
+          "T04-038",
+          "T04-040"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C011",
+    "canonical_term": "Attention Mechanism",
+    "aliases": [
+      "cơ chế chú ý",
+      "attention",
+      "cơ chế attention"
+    ],
+    "definition": "Cơ chế giúp mô hình xác định được các từ trọng tâm và mối liên hệ giữa các từ trong toàn bộ văn bản dài thay vì dàn đều độ quan trọng.",
+    "source_ids": [
+      "T04-038",
+      "T04-040",
+      "T06-002"
+    ],
+    "relations": [
+      {
+        "target_term": "Transformer",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-040"
+        ]
+      },
+      {
+        "target_term": "Self-Attention",
+        "relation": "type_of",
+        "source_ids": [
+          "T04-040",
+          "T06-040"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C012",
+    "canonical_term": "Self-Attention",
+    "aliases": [
+      "self attention",
+      "cơ chế tự chú ý",
+      "tự chú ý"
+    ],
+    "definition": "Dạng cơ chế chú ý cho phép mô hình Transformer tự tính toán tương quan giữa mọi vị trí từ ngữ trong cùng một chuỗi câu để trích xuất ngữ cảnh chính xác.",
+    "source_ids": [
+      "T04-040",
+      "T06-022",
+      "T06-040"
+    ],
+    "relations": [
+      {
+        "target_term": "Attention Mechanism",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-040"
+        ]
+      },
+      {
+        "target_term": "Transformer",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-038"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C013",
+    "canonical_term": "AI Agent",
+    "aliases": [
+      "agent",
+      "agentic AI",
+      "tác nhân AI"
+    ],
+    "definition": "Hệ thống AI dựa trên mô hình ngôn ngữ lớn có khả năng tự động lập kế hoạch, sử dụng công cụ (tool calling) và thực hiện các chuỗi hành động để hoàn thành mục tiêu phức tạp.",
+    "source_ids": [
+      "T04-003",
+      "T04-006",
+      "T06-051"
+    ],
+    "relations": [
+      {
+        "target_term": "Large Language Model",
+        "relation": "component_of",
+        "source_ids": [
+          "T04-003",
+          "T06-051"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C014",
+    "canonical_term": "RNN",
+    "aliases": [
+      "Recurrent Neural Network",
+      "mạng neuron hồi quy"
+    ],
+    "definition": "Kiến trúc mạng neuron tuần tự cũ xử lý văn bản bằng cách đọc từng từ nối tiếp. Dễ bị quên ngữ cảnh ở các câu quá dài.",
+    "source_ids": [
+      "T04-039"
+    ],
+    "relations": [
+      {
+        "target_term": "Transformer",
+        "relation": "related_to",
+        "source_ids": [
+          "T04-039",
+          "T04-040"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  },
+  {
+    "term_id": "C015",
+    "canonical_term": "ImageNet",
+    "aliases": [
+      "bộ dữ liệu ImageNet"
+    ],
+    "definition": "Bộ dữ liệu hình ảnh được gán nhãn thủ công do Fei-Fei Li phát triển, tạo bước ngoặt và nguồn nguyên liệu thúc đẩy cuộc cách mạng Deep Learning từ 2012.",
+    "source_ids": [
+      "T04-031",
+      "T06-059"
+    ],
+    "relations": [
+      {
+        "target_term": "Deep Learning",
+        "relation": "used_for",
+        "source_ids": [
+          "T04-031"
+        ]
+      }
+    ],
+    "review_status": "approved"
+  }
+]

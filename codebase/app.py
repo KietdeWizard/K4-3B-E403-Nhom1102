@@ -16,8 +16,6 @@ def get_lesson_context() -> str:
     lesson_text = request.form.get("lesson_context", "").strip()
     upload = request.files.get("lesson_file")
 
-    if lesson_text:
-        return lesson_text
     if upload and upload.filename:
         suffix = Path(upload.filename).suffix.lower()
         if suffix not in {".pdf", ".pptx", ".txt", ".md"}:
@@ -26,9 +24,17 @@ def get_lesson_context() -> str:
             upload.save(temporary_file)
             temporary_path = temporary_file.name
         try:
-            return extract_lesson_context(temporary_path)
+            extracted_text = extract_lesson_context(temporary_path)
         finally:
             Path(temporary_path).unlink(missing_ok=True)
+        if not extracted_text.strip():
+            raise ValueError(
+                "Không đọc được chữ từ tài liệu. PDF này có thể là bản scan/ảnh; "
+                "hãy dùng PDF có text hoặc OCR trước khi upload."
+            )
+        return extracted_text
+    if lesson_text:
+        return lesson_text
     return ""
 
 

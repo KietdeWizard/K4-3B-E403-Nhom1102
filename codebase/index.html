@@ -121,6 +121,87 @@
         gap: 12px;
       }
 
+      .diagram {
+        display: grid;
+        gap: 18px;
+      }
+
+      .diagram-row {
+        display: grid;
+        grid-template-columns: minmax(150px, 0.9fr) 74px minmax(180px, 1.1fr) 74px minmax(190px, 1.1fr) 74px minmax(180px, 1.1fr);
+        align-items: center;
+        gap: 8px;
+      }
+
+      .diagram-branches {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .diagram-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcff;
+        padding: 14px;
+        min-height: 132px;
+      }
+
+      .diagram-card strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .diagram-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        min-height: 44px;
+        border-top: 3px solid var(--muted);
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .diagram-arrow::after {
+        content: "";
+        position: absolute;
+        right: -2px;
+        top: -8px;
+        border-top: 7px solid transparent;
+        border-bottom: 7px solid transparent;
+        border-left: 11px solid var(--muted);
+      }
+
+      .down-arrow {
+        color: var(--muted);
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .lane-labels {
+        display: grid;
+        grid-template-columns: minmax(150px, 0.9fr) 74px minmax(180px, 1.1fr) 74px minmax(190px, 1.1fr) 74px minmax(180px, 1.1fr);
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .lane-labels span:nth-child(even) {
+        visibility: hidden;
+      }
+
+      .branch-note {
+        border-left: 4px solid var(--blue);
+        padding-left: 12px;
+        color: var(--muted);
+      }
+
       .tag {
         display: inline-block;
         border-radius: 999px;
@@ -170,8 +251,34 @@
       }
 
       @media (max-width: 900px) {
-        .branches {
+        .branches,
+        .diagram-branches {
           grid-template-columns: 1fr;
+        }
+
+        .diagram-row {
+          grid-template-columns: 1fr;
+        }
+
+        .lane-labels {
+          display: none;
+        }
+
+        .diagram-arrow {
+          border-left: 3px solid var(--muted);
+          border-top: 0;
+          min-height: 28px;
+        }
+
+        .diagram-arrow::after {
+          right: auto;
+          left: calc(50% - 7px);
+          top: auto;
+          bottom: -2px;
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-top: 11px solid var(--muted);
+          border-bottom: 0;
         }
       }
     </style>
@@ -186,6 +293,92 @@
           một slide/video. Đây không phải UI cuối cùng và không phải chatbox prototype.
         </p>
       </header>
+
+      <section>
+        <h2>Visual agent flow</h2>
+        <div class="diagram" aria-label="VLearn AI glossary agent flow diagram">
+          <div class="lane-labels" aria-hidden="true">
+            <span>Student</span>
+            <span></span>
+            <span>VLearn AI Agent</span>
+            <span></span>
+            <span>AI Decision</span>
+            <span></span>
+            <span>Answer shown in VLearn AI</span>
+          </div>
+
+          <div class="diagram-row">
+            <div class="diagram-card">
+              <span class="tag blue">Start</span>
+              <strong>Student is stuck on terms</strong>
+              While watching the lesson, the student asks VLearn AI:
+              <br />
+              <code>Tạo glossary cho slide này</code>
+            </div>
+
+            <div class="diagram-arrow">asks</div>
+
+            <div class="diagram-card">
+              <span class="tag blue">Retrieve</span>
+              <strong>Agent reads lesson context</strong>
+              Current slide/video/topic, transcript if available, and related chat history from the same topic.
+            </div>
+
+            <div class="diagram-arrow">checks</div>
+
+            <div class="diagram-card decision">
+              <span class="tag blue">Decide</span>
+              <strong>Grounding + confidence</strong>
+              Does each keyword have source evidence? Is the term ambiguous? Is the answer safe to show?
+            </div>
+
+            <div class="diagram-arrow">routes</div>
+
+            <div class="diagram-card output">
+              <span class="tag green">Response</span>
+              <strong>Glossary answer</strong>
+              Definition, source, related keywords, and suggested learning order appear inside VLearn AI.
+            </div>
+          </div>
+
+          <div class="down-arrow">↓</div>
+
+          <p class="branch-note">
+            After the decision step, the agent chooses one of four response routes below.
+          </p>
+
+          <div class="diagram-branches">
+            <div class="diagram-card output">
+              <span class="tag green">A</span>
+              <strong>Happy path</strong>
+              Return grounded glossary, related terms, and learning order.
+            </div>
+            <div class="diagram-card warning">
+              <span class="tag amber">B</span>
+              <strong>Low confidence</strong>
+              Give limited answer and ask learner to verify.
+            </div>
+            <div class="diagram-card failure">
+              <span class="tag red">C</span>
+              <strong>No grounding</strong>
+              Refuse to invent; say there is not enough lesson evidence.
+            </div>
+            <div class="diagram-card correction">
+              <span class="tag blue">D</span>
+              <strong>Correction</strong>
+              Record learner feedback and mark result for checking.
+            </div>
+          </div>
+
+          <div class="down-arrow">↓</div>
+
+          <div class="diagram-card">
+            <span class="tag green">Final</span>
+            <strong>Response inside VLearn AI</strong>
+            The answer stays scoped to the current lesson and does not judge the student's ability.
+          </div>
+        </div>
+      </section>
 
       <section>
         <h2>End-to-end workflow</h2>

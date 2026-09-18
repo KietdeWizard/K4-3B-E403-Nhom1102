@@ -128,7 +128,9 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
   2. Dung source/page de kiem tra lai mot thuat ngu.
   3. Hoi mot khai niem ngoai bai de xem he thong tu choi.
 
-- **Willing users:** Can dien ten that sau khi chot lich CP5. Neu chua co ten, tu khai la gap con thieu, khong gia mao.
+- **Willing users:**
+  - Do Dinh Long - 2A202602673: willing user ngoai nhom, se test task tao glossary va kiem tra source/page.
+  - Vo Duc Tai - 2A202603007: willing user ngoai nhom, se test task hoi concept connection va khai niem ngoai bai.
 
 ## §9. Changelog
 

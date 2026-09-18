@@ -12,3 +12,9 @@ __pycache__/
 .venv/
 env/
 venv/
+
+# Local secrets
+.env
+.env.local
+codebase/.env
+codebase/.env.local

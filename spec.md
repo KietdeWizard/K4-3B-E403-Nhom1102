@@ -123,14 +123,13 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | Pham Thanh Son | Golden set, chatlog evidence, invite 2 external users cung Anh |
 | Dao Minh Hieu | Eval runner, run results, quality dimensions/bar/results, backup demo recording cung Anh |
 
-- **CP5 validation plan:** Son + Anh moi it nhat 2 nguoi ngoai nhom. Moi phien 10 phut, giao task:
-  1. Tao glossary cho slide/topic dang xem.
-  2. Dung source/page de kiem tra lai mot thuat ngu.
-  3. Hoi mot khai niem ngoai bai de xem he thong tu choi.
+- **CP5 validation plan:** Sơn + Anh đã mời 2 willing users ngoài nhóm thực hiện thử nghiệm trực tiếp 10 phút/người theo kịch bản 5 nhịp Stanford CS177 / Sean Ellis / PAIR 5.1. Nhật ký chi tiết lưu tại [`validation/user_testing_log.md`](file:///d:/Hackathon_Day%2005_Lab/K4-3B-E403-Nhom1102/validation/user_testing_log.md).
+  1. Võ Đức Tài (`2A202603007` - Willing User CP1, Học viên K4): Thực hiện Task 1 (Tra cứu LLM & Kiểm tra trích dẫn slide `T04-003`).
+  2. Đỗ Đình Long (`2A202602673` - Willing User CP1, Học viên K4): Thực hiện Task 2 (Thử thách khái niệm ngoài bài `Mamba` để kiểm tra độ an toàn grounding).
 
-- **Willing users:**
-  - Do Dinh Long - 2A202602673: willing user ngoai nhom, se test task tao glossary va kiem tra source/page.
-  - Vo Duc Tai - 2A202603007: willing user ngoai nhom, se test task hoi concept connection va khai niem ngoai bai.
+- **Willing users:** Đã hoàn thành vòng thử nghiệm với 02 người dùng thật ngoài nhóm từ danh sách CP1:
+  - Võ Đức Tài (`2A202603007`): Willing user ngoài nhóm, thực hiện Task 1 tra cứu glossary & kiểm tra trích dẫn source/page.
+  - Đỗ Đình Long (`2A202602673`): Willing user ngoài nhóm, thực hiện Task 2 hỏi concept connection & thử thách khái niệm ngoài bài.
 
 ## §9. Changelog
 
@@ -142,3 +141,6 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | 2026-09-18 16:30 | Dinh huong lai visible product slice thanh contextual glossary layer | VLearn AI da giai thich khai niem rieng le; feature moi can vi du, source/page, connection |
 | 2026-09-18 16:45 | Cap nhat app contract voi `glossary`, `lesson_example`, `source_refs`, `concept_connections` | De demo dung lat cat glossary |
 | 2026-09-18 16:50 | Them `eval/glossary_demo_cases.json` va `eval/run2_glossary_plan.md` | Chuan bi Run 2 cho glossary layer |
+| 2026-09-18 18:30 | Hoàn thành vòng validation 4.2 với 02 willing users Võ Đức Tài (`2A202603007`) & Đỗ Đình Long (`2A202602673`) | Ghi nhận nhật ký thử nghiệm tại `validation/user_testing_log.md` |
+| 2026-09-18 18:45 | Thêm tooltip định dạng `source_ids` và làm rõ badge an toàn `unsupported` | Giải quyết phản hồi UX từ vòng validation người dùng |
+

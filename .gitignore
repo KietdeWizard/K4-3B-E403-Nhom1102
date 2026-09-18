@@ -1,0 +1,14 @@
+# Data Pack Security Policy — Do not commit raw data packs to remote repo
+vlearn-pack/
+discord-pack/
+studio-pack/
+
+# Byte-compiled / Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/

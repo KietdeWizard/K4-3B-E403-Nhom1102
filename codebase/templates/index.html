@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Glossary bài học</title>
+    <style>
+      :root { font-family: system-ui, sans-serif; color: #17202a; background: #f4f6f8; }
+      body { margin: 0; }
+      main { width: min(900px, calc(100% - 32px)); margin: 32px auto; }
+      section { background: white; border: 1px solid #dce3ec; border-radius: 10px; padding: 24px; margin-top: 16px; }
+      h1, h2, p { margin-top: 0; }
+      label { display: block; font-weight: 700; margin: 16px 0 6px; }
+      textarea, input[type="file"] { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #b8c2cc; border-radius: 6px; font: inherit; }
+      textarea { min-height: 120px; resize: vertical; }
+      button { margin-top: 18px; padding: 10px 16px; border: 0; border-radius: 6px; background: #1769aa; color: white; font-weight: 700; cursor: pointer; }
+      button:disabled { opacity: .6; cursor: wait; }
+      pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f1f4f7; padding: 16px; border-radius: 6px; }
+      .muted { color: #617083; }
+      .error { color: #a43c3c; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <p class="muted">Prototype môi trường học giả lập</p>
+        <h1>Glossary bài học</h1>
+        <p>Upload tài liệu hoặc dán nội dung bài học, sau đó hỏi về một thuật ngữ.</p>
+
+        <form id="decision-form">
+          <label for="lesson_file">Tài liệu bài học (PDF, PowerPoint, TXT, Markdown)</label>
+          <input id="lesson_file" name="lesson_file" type="file" accept=".pdf,.pptx,.txt,.md" />
+
+          <label for="lesson_context">Hoặc nhập nội dung bài học</label>
+          <textarea id="lesson_context" name="lesson_context" placeholder="Ví dụ: Slide 7: Attention allows the model to focus on relevant tokens."></textarea>
+
+          <label for="user_query">Câu hỏi của học viên</label>
+          <textarea id="user_query" name="user_query" placeholder="Attention là gì?" required></textarea>
+
+          <label for="topic_history">Lịch sử cùng topic (không bắt buộc)</label>
+          <textarea id="topic_history" name="topic_history" placeholder="Học viên từng hỏi về token và embedding."></textarea>
+
+          <button id="submit-button" type="submit">Kiểm tra grounding</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Kết quả</h2>
+        <p id="message" class="muted">Chưa có lượt chạy.</p>
+        <pre id="result" hidden></pre>
+      </section>
+    </main>
+    <script>
+      const form = document.querySelector("#decision-form");
+      const button = document.querySelector("#submit-button");
+      const message = document.querySelector("#message");
+      const result = document.querySelector("#result");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        button.disabled = true;
+        message.textContent = "Đang gọi model...";
+        message.className = "muted";
+        result.hidden = true;
+        try {
+          const response = await fetch("/api/decide", { method: "POST", body: new FormData(form) });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "Request thất bại");
+          result.textContent = JSON.stringify(data, null, 2);
+          result.hidden = false;
+          message.textContent = "Đã nhận kết quả.";
+        } catch (error) {
+          message.textContent = error.message;
+          message.className = "error";
+        } finally {
+          button.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

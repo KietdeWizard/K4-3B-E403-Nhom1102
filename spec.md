@@ -123,7 +123,7 @@ Case lam nhom so nhat khi demo: model bia `source_ref` hoac dua kien thuc ngoai 
 | Pham Thanh Son | Golden set, chatlog evidence, invite 2 external users cung Anh |
 | Dao Minh Hieu | Eval runner, run results, quality dimensions/bar/results, backup demo recording cung Anh |
 
-- **CP5 validation plan:** Sơn + Anh đã mời 2 willing users ngoài nhóm thực hiện thử nghiệm trực tiếp 10 phút/người theo kịch bản 5 nhịp Stanford CS177 / Sean Ellis / PAIR 5.1. Nhật ký chi tiết lưu tại [`validation/user_testing_log.md`](file:///d:/Hackathon_Day%2005_Lab/K4-3B-E403-Nhom1102/validation/user_testing_log.md).
+- **CP5 validation plan:** Sơn + Anh đã mời 2 willing users ngoài nhóm thực hiện thử nghiệm trực tiếp 10 phút/người theo kịch bản 5 nhịp Stanford CS177 / Sean Ellis / PAIR 5.1. Nhật ký chi tiết lưu tại `validation/user_testing_log.md`.
   1. Võ Đức Tài (`2A202603007` - Willing User CP1, Học viên K4): Thực hiện Task 1 (Tra cứu LLM & Kiểm tra trích dẫn slide `T04-003`).
   2. Đỗ Đình Long (`2A202602673` - Willing User CP1, Học viên K4): Thực hiện Task 2 (Thử thách khái niệm ngoài bài `Mamba` để kiểm tra độ an toàn grounding).
 
